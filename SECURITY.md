@@ -4,7 +4,7 @@
 
 Não publique detalhes exploráveis de uma vulnerabilidade em uma issue pública.
 
-Use o recurso **Private vulnerability reporting** do GitHub para este repositório, se estiver habilitado. Se não estiver disponível, entre em contato com o dono do projeto, Maicon Wissmann, pelo GitHub e solicite um meio seguro para compartilhar os detalhes. Não publique detalhes exploráveis em issue pública.
+Use o recurso **Private vulnerability reporting** do GitHub para este repositório, que está habilitado. Se não estiver disponível, entre em contato com o dono do projeto, Maicon Wissmann, pelo GitHub e solicite um meio seguro para compartilhar os detalhes. Não publique detalhes exploráveis em issue pública.
 
 Inclua, quando possível:
 - versão/commit afetado;
