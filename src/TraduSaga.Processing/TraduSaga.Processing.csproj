@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+	  <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TraduSaga.OCR\TraduSaga.OCR.csproj" />
+    <ProjectReference Include="..\TraduSaga.Translation\TraduSaga.Translation.csproj" />
+    <ProjectReference Include="..\TraduSaga.TTS\TraduSaga.TTS.csproj" />
+  </ItemGroup>
+
+</Project>

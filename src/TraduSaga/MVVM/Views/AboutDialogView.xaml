@@ -1,0 +1,62 @@
+﻿<UserControl
+    x:Class="TraduSaga.MVVM.Views.AboutDialogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:TraduSaga.MVVM.Common"
+    xmlns:controls="clr-namespace:TraduSaga.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:TraduSaga.MVVM.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="260"
+    Height="335"
+    d:DesignHeight="335"
+    d:DesignWidth="260"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style
+            x:Key="ActionLinkExtendedButton"
+            BasedOn="{StaticResource {x:Type controls:ExtendedButton}}"
+            TargetType="controls:ExtendedButton">
+            <Setter Property="IconKind" Value="OpenInNew" />
+            <Setter Property="Command" Value="{common:OpenLinkCommand}" />
+            <Setter Property="Width" Value="250" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+        </Style>
+        <common:VisibilityConverter x:Key="VisibilityConverter" />
+    </UserControl.Resources>
+    <DockPanel>
+        <Image
+            Height="90"
+            Margin="0,20,0,0"
+            VerticalAlignment="Top"
+            DockPanel.Dock="Top"
+            RenderOptions.BitmapScalingMode="HighQuality"
+            Source="../../Resources/Icons/logo.png" />
+        <TextBlock HorizontalAlignment="Center" DockPanel.Dock="Top">
+            <Run Style="{StaticResource PrimaryHeaderRun}" Text="{StaticResource ApplicationName}" />
+            <Run Style="{StaticResource SecondaryHeaderRun}" Text="{Binding ApplicationVersion}" />
+        </TextBlock>
+        <TextBlock
+            Margin="20,8,20,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            DockPanel.Dock="Top"
+            Style="{StaticResource ButtonTextBlock}"
+            Text="{DynamicResource Str.About.Authors}"
+            TextAlignment="Center" />
+
+        <controls:ExtendedButton
+            Margin="0,0,0,25"
+            Caption="{StaticResource Str.About.ReportIssue}"
+            CommandParameter="{x:Static common:ApplicationLinks.ReportIssue}"
+            DockPanel.Dock="Bottom"
+            Style="{StaticResource ActionLinkExtendedButton}" />
+        <controls:ExtendedButton
+            Margin="0,0,0,6"
+            Caption="{StaticResource Str.About.ProjectPage}"
+            CommandParameter="{x:Static common:ApplicationLinks.ProjectRepository}"
+            DockPanel.Dock="Bottom"
+            Style="{StaticResource ActionLinkExtendedButton}" />
+    </DockPanel>
+</UserControl>

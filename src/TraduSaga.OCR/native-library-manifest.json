@@ -1,0 +1,20 @@
+{
+  "libraries": [
+    {
+      "libraryName": "OpenCvSharpExtern",
+      "package": "OpenCvSharp4.runtime.win",
+      "version": "4.7.0.20230115",
+      "runtimeIdentifier": "win-x64",
+      "file": "OpenCvSharpExtern.dll",
+      "sha256": "60cdf2e127f3ee14cbef59af5358ab1ddd873505a7758e3aa97cb8f583b202c0"
+    },
+    {
+      "libraryName": "LdaNative",
+      "package": "Microsoft.ML",
+      "version": "2.0.1",
+      "runtimeIdentifier": "win-x64",
+      "file": "LdaNative.dll",
+      "sha256": "2c27a2318e8f8b093c0abbfbb6bb1175e170372e104885578c1605bafd1b9a4e"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+
+    <!--  Generic  -->
+    <system:String x:Key="Str.Login">代理用户名</system:String>
+    <system:String x:Key="Str.Password">代理密码</system:String>
+    <system:String x:Key="Str.ExitConfirmation" xml:space="preserve">确定要退出TraduSaga吗?&#13;您可以点击最小化按钮，程序将在后台运行 (可通过系统托盘里的图标使用TraduSaga)。</system:String>
+    <system:String x:Key="Str.ExitConfirmationCaption">退出确认</system:String>
+
+    <!--  Notifications  -->
+
+    <!--  Titles  -->
+    <system:String x:Key="Str.Title.SettingWindow" xml:space="preserve">TraduSaga设置</system:String>
+
+    <!--  Tray  -->
+    <system:String x:Key="Str.Tray.ShowHideSettings">打开/关闭 设置</system:String>
+    <system:String x:Key="Str.Tray.ShowHideTranslation">显示/隐藏 翻译墙</system:String>
+    <system:String x:Key="Str.Tray.Exit">退出</system:String>
+
+    <!--  Chat  -->
+    <system:String x:Key="Str.Chat.SettingsOpened">关闭设置窗口才能开始翻译</system:String>
+    <system:String x:Key="Str.Chat.WindowLocked">翻译墙已锁定（不可调整位置、大小）</system:String>
+    <system:String x:Key="Str.Chat.WindowUnlocked">翻译墙已解锁</system:String>
+
+    <!--  Language settings  -->
+    <system:String x:Key="Str.LangSettings.SourceLang">源语言（您想要翻译的语言）</system:String>
+    <system:String x:Key="Str.LangSettings.TranslationLang">目标语言（您想要看到的语言）</system:String>
+    <system:String x:Key="Str.LangSettings.YandexApiKey">Yandex API 密钥</system:String>
+    <system:String x:Key="Str.LangSettings.DeeplApiKey">DeepL API 密钥</system:String>
+    <system:String x:Key="Str.LangSettings.PrivacyHeading">翻译隐私</system:String>
+    <system:String x:Key="Str.LangSettings.PrivacyDescription">屏幕文字只会发送给您在下方允许的服务。</system:String>
+    <system:String x:Key="Str.LangSettings.AllowGoogleConsent">允许 Google</system:String>
+    <system:String x:Key="Str.LangSettings.AllowDeeplConsent">允许 DeepL</system:String>
+    <system:String x:Key="Str.LangSettings.AllowYandexConsent">允许 Yandex</system:String>
+    <system:String x:Key="Str.LangSettings.ForgetConsent">重置</system:String>
+    <system:String x:Key="Str.LangSettings.ConsentUnknown">尚未决定</system:String>
+    <system:String x:Key="Str.LangSettings.ConsentDenied">已阻止</system:String>
+    <system:String x:Key="Str.LangSettings.ConsentGranted">已允许</system:String>
+    <system:String x:Key="Str.LangSettings.SaveApiKey">保存密钥</system:String>
+    <system:String x:Key="Str.LangSettings.RevealApiKey">显示</system:String>
+    <system:String x:Key="Str.LangSettings.HideApiKey">隐藏</system:String>
+    <system:String x:Key="Str.LangSettings.DeleteApiKey">删除</system:String>
+    <system:String x:Key="Str.LangSettings.ApiKeyConfigured">已配置</system:String>
+    <system:String x:Key="Str.LangSettings.ApiKeyNotConfigured">未配置</system:String>
+    <system:String x:Key="Str.LangSettings.ApiKeyEntryRequired">保存前请输入 API 密钥。</system:String>
+    <system:String x:Key="Str.LangSettings.DeleteApiKeyQuestion">确定删除此 API 密钥吗？要使用此服务，您需要重新输入密钥。</system:String>
+    <system:String x:Key="Str.LangSettings.DeleteApiKeyTitle">删除 API 密钥</system:String>
+    <system:String x:Key="Str.LangSettings.Translator">翻译源</system:String>
+    <system:String x:Key="Str.LangSettings.Voices">语音</system:String>
+    <system:String x:Key="Str.Consent.Title">将屏幕文字发送给 {0}？</system:String>
+    <system:String x:Key="Str.Consent.Explanation">识别到的屏幕文字将发送给 {0} 进行翻译。只有您允许后才会发送文字。您可以在设置中更改此决定。</system:String>
+    <system:String x:Key="Str.Consent.PrivacyPolicy">查看 {0} 的隐私政策</system:String>
+    <system:String x:Key="Str.Consent.Allow">允许</system:String>
+    <system:String x:Key="Str.Consent.Deny">不允许</system:String>
+    <system:String x:Key="Str.Consent.Cancel">取消</system:String>
+    <system:String x:Key="Str.LangSettings.TtsSystem">朗读源</system:String>
+
+    <!--  Hotkeys descriptions  -->
+    <system:String x:Key="Str.Hotkeys.ChatVisibility">显示/隐藏 翻译墙</system:String>
+    <system:String x:Key="Str.Hotkeys.SettingsVisibility">打开/关闭 设置</system:String>
+    <system:String x:Key="Str.Hotkeys.SelectArea">选择翻译区域</system:String>
+    <system:String x:Key="Str.Hotkeys.OnOffTranslation">开启/关闭 翻译</system:String>
+    <system:String x:Key="Str.Hotkeys.ShowSelectArea">显示已选择的翻译区域</system:String>
+    <system:String x:Key="Str.Hotkeys.OnceTranslate">选择翻译区域（一次性）</system:String>
+    <system:String x:Key="Str.Hotkeys.WindowChangeStyle">锁定/解除锁定 翻译墙位置</system:String>
+    <system:String x:Key="Str.Hotkeys.SettingsShowHelp">请按 '{0}' 打开设置页面</system:String>
+    <system:String x:Key="Str.Hotkeys.SelectAreaHelp">请按 '{0}' 选择翻译区域</system:String>
+    <system:String x:Key="Str.Hotkeys.OnTranslationHelp">请按 '{0}' 开始翻译</system:String>
+    <system:String x:Key="Str.Hotkeys.GeneralHelp">要控制本应用，请使用托盘中的右键菜单，或以下快捷键：</system:String>
+
+    <!--  Appearance settings  -->
+    <system:String x:Key="Str.AppearanceSettings.WindowColor">翻译墙背景色</system:String>
+    <system:String x:Key="Str.AppearanceSettings.FontColor">文字颜色</system:String>
+    <system:String x:Key="Str.AppearanceSettings.FontSize">文字大小</system:String>
+    <system:String x:Key="Str.AppearanceSettings.Bold">加粗</system:String>
+    <system:String x:Key="Str.AppearanceSettings.ExcludeFromCaptue">排除翻译墙</system:String>
+    <system:String x:Key="Str.AppearanceSettings.LineSpacing">行间距</system:String>
+    <system:String x:Key="Str.AppearanceSettings.WindowOpacity">翻译墙背景透明度</system:String>
+    <system:String x:Key="Str.AppearanceSettings.FontSizePanelCaption">字体大小 — 改变</system:String>
+    <system:String x:Key="Str.AppearanceSettings.FontColorPanelCaption">字体颜色 — 改变</system:String>
+    <system:String x:Key="Str.AppearanceSettings.KeepFormatting">保留翻译文本原始格式</system:String>
+    <system:String x:Key="Str.AppearanceSettings.Left">左对齐</system:String>
+    <system:String x:Key="Str.AppearanceSettings.Center">居中</system:String>
+    <system:String x:Key="Str.AppearanceSettings.Right">右对齐</system:String>
+    <system:String x:Key="Str.AppearanceSettings.Justify">两端对齐</system:String>
+    <system:String x:Key="Str.AppearanceSettings.AutoClearTexts">自动清屏</system:String>
+    <system:String x:Key="Str.AppearanceSettings.AutoClearTexts2">消失时间</system:String>
+    <system:String x:Key="Str.AppearanceSettings.Ms">ms</system:String>
+
+
+
+
+    <!--  OCR settings  -->
+    <system:String x:Key="Str.OcrSettings.WindowsOcr">Windows OCR</system:String>
+    <system:String x:Key="Str.OcrSettings.WindowsOcrDesc" xml:space="preserve">微软原生OCR解决方案。可很好地处理复杂背景和字体。&#13;&#13;&lt;Bold&gt;性能影响:&lt;/Bold&gt; 中</system:String>
+    <system:String x:Key="Str.OcrSettings.WindowsOcrDesc2">可能需要安装其他语言包。</system:String>
+
+    <!--  About window  -->
+    <system:String x:Key="Str.About.Authors">作者：Maicon Wissmann</system:String>
+    <system:String x:Key="Str.About.ProjectPage">项目主页</system:String>
+    <system:String x:Key="Str.About.ReportIssue">意见与反馈</system:String>
+
+    <!--  Navigation menu  -->
+    <system:String x:Key="Str.Navigation.Languages">语言</system:String>
+    <system:String x:Key="Str.Navigation.Appearance">翻译墙</system:String>
+    <system:String x:Key="Str.Navigation.Ocr">文字识别器</system:String>
+    <system:String x:Key="Str.Navigation.HotKeys">快捷键</system:String>
+
+    <!--  Languages  -->
+    <system:String x:Key="Str.Languages.English">英文</system:String>
+    <system:String x:Key="Str.Languages.Russian">俄文</system:String>
+    <system:String x:Key="Str.Languages.Japanese">日文</system:String>
+    <system:String x:Key="Str.Languages.Korean">韩文</system:String>
+    <system:String x:Key="Str.Languages.Chinese">中文 (简体)</system:String>
+    <system:String x:Key="Str.Languages.Italian">意大利文</system:String>
+    <system:String x:Key="Str.Languages.French">法文</system:String>
+    <system:String x:Key="Str.Languages.German">德文</system:String>
+    <system:String x:Key="Str.Languages.Spanish">西班牙文</system:String>
+    <system:String x:Key="Str.Languages.Portuguese">葡萄牙文</system:String>
+    <system:String x:Key="Str.Languages.Vietnamese">越南文</system:String>
+    <system:String x:Key="Str.Languages.Turkish">土耳其文</system:String>
+    <system:String x:Key="Str.Languages.Thai">泰文</system:String>
+    <system:String x:Key="Str.Languages.Arabic">阿拉伯文</system:String>
+    <system:String x:Key="Str.Languages.Greek">希腊文</system:String>
+    <system:String x:Key="Str.Languages.PortugueseBrazil">葡萄牙文 (巴西)</system:String>
+    <system:String x:Key="Str.Languages.Polish">波兰文</system:String>
+    <system:String x:Key="Str.Languages.Belarusian">白俄罗斯文</system:String>
+    <system:String x:Key="Str.Languages.Persian">波斯文</system:String>
+    <system:String x:Key="Str.Languages.Indonesian">印尼文</system:String>
+    <system:String x:Key="Str.Languages.Bulgarian">保加利亚文</system:String>
+    <system:String x:Key="Str.Languages.Czech">捷克文</system:String>
+    <system:String x:Key="Str.Languages.Danish">丹麦文</system:String>
+    <system:String x:Key="Str.Languages.Estonian">爱沙尼亚文</system:String>
+    <system:String x:Key="Str.Languages.Finnish">芬兰文</system:String>
+    <system:String x:Key="Str.Languages.Hungarian">匈牙利文</system:String>
+    <system:String x:Key="Str.Languages.Lithuanian">立陶宛文</system:String>
+    <system:String x:Key="Str.Languages.Latvian">拉脱维亚文</system:String>
+    <system:String x:Key="Str.Languages.Dutch">荷兰文</system:String>
+    <system:String x:Key="Str.Languages.Romanian">罗马尼亚文</system:String>
+    <system:String x:Key="Str.Languages.Slovak">斯洛伐克文</system:String>
+    <system:String x:Key="Str.Languages.Slovenian">斯洛文尼亚文</system:String>
+    <system:String x:Key="Str.Languages.Swedish">瑞典文</system:String>
+    <system:String x:Key="Str.Languages.Ukrainian">乌克兰文</system:String>
+
+    <!--  Dialog stages  -->
+    <system:String x:Key="Str.Stages.CheckLangPack">正在检查语言包安装情况...</system:String>
+    <system:String x:Key="Str.Stages.OCRLangPackQuestion" xml:space="preserve">Windows尚未安装语言 “{0}” 的图文识别 (OCR) 支持。&#13;是否现在安装？</system:String>
+    <system:String x:Key="Str.Stages.TTSLangPackQuestion" xml:space="preserve">Windows尚未安装语言 “{0}” 的语音朗读 (TTS) 支持。&#13;是否现在安装？</system:String>
+    <system:String x:Key="Str.Stages.InstallationLangPack">正在安装语言包...</system:String>
+    <system:String x:Key="Str.Stages.LangPackInstalledRestart">语言包已安装，请重新启动计算机。</system:String>
+    <system:String x:Key="Str.Stages.LangPackInstalledTtsRestart" xml:space="preserve">语言包已安装。&#13;如果语音合成功能无法使用，请尝试重新启动应用程序。</system:String>
+    <system:String x:Key="Str.Stages.InstallationLangError">安装语言包失败：‘{0}’</system:String>
+    <system:String x:Key="Str.Stages.CheckLangPackError" xml:space="preserve">检查Windows功能选项时，发生意外错误。&#13; 请退出TraduSaga，再次管理员身份运行TraduSaga尝试。</system:String>
+    <system:String x:Key="Str.Stages.SwitchLanguage">正在切换语言...</system:String>
+    <system:String x:Key="Str.Stages.SwitchLanguageError">切换语言失败：‘{0}’</system:String>
+    <system:String x:Key="Str.Stages.TtsNotSupportLanguageTemplate">{0} “{1}” 不支持 “{2}” 语言。</system:String>
+
+    <!--  Buttons  -->
+    <system:String x:Key="Str.Button.ShowText">示例文本</system:String>
+    <system:String x:Key="Str.Button.Apply">接受</system:String>
+    <system:String x:Key="Str.Button.Cancel">取消</system:String>
+    <system:String x:Key="Str.Button.Ok">确定</system:String>
+
+    <system:String x:Key="Str.UnhandledError">发生意外错误：&#13;&#13;{0}&#13;&#13;程序将继续运行，但某些功能可能不正常。详情见日志文件。</system:String>
+    <system:String x:Key="Str.App.ErrorTitle">错误</system:String>
+    <system:String x:Key="Str.App.NativeComponentsError">缺少必需的本机组件，或其完整性验证失败。请修复应用后再重新启动。</system:String>
+    <system:String x:Key="Str.App.ConfigurationError">TraduSaga 无法安全读取已保存的配置。原始文件已保留。请在重新启动前备份或删除该文件。</system:String>
+
+
+</ResourceDictionary>
