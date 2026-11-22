@@ -58,4 +58,6 @@ Consulte [CONTRIBUTING.md](CONTRIBUTING.md). O build usa .NET 8 e os arquivos `p
 
 ## Downloads
 
-Não há URL de download oficial verificado documentado neste checkout. Confirme a existência de releases e o canal oficial antes de publicar instruções de download.
+Baixe a versão **TraduSaga 1.0.0 para Windows x64** pela [release no GitHub](https://github.com/maiconwiss/ProjectTraduSaga/releases/tag/v1.0.0) ou diretamente pelo [arquivo ZIP](https://github.com/maiconwiss/ProjectTraduSaga/releases/download/v1.0.0/TraduSaga-1.0.0-win-x64.zip).
+
+SHA-256 do ZIP: `D842E8B859C0C1D131EDCB4451748E71423D98DEEDF30B8BB699D59AC356ACEB`.
