@@ -7,8 +7,8 @@ public class ApplicationLinksTests
     [Fact]
     public void AboutLinksPointToTheSelectedRepository()
     {
-        Assert.Equal("https://github.com/maiconwiss/traducaoRPG", ApplicationLinks.ProjectRepository);
-        Assert.Equal("https://github.com/maiconwiss/traducaoRPG/issues/new", ApplicationLinks.ReportIssue);
+        Assert.Equal("https://github.com/maiconwiss/ProjectTraduSaga", ApplicationLinks.ProjectRepository);
+        Assert.Equal("https://github.com/maiconwiss/ProjectTraduSaga/issues/new", ApplicationLinks.ReportIssue);
         Assert.True(SafeExternalUrlPolicy.IsAllowed(ApplicationLinks.ProjectRepository));
         Assert.True(SafeExternalUrlPolicy.IsAllowed(ApplicationLinks.ReportIssue));
     }

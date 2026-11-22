@@ -2,7 +2,7 @@
 
 ## Nota de escopo e atualização do checkout
 
-Este arquivo foi trazido de uma preparação anterior. As seções abaixo com data de 2026-11-19 preservam o registro histórico e **não devem ser lidas como uma avaliação atual**: o commit indicado naquele relatório (`22b6bb37e686334f6768421973322269cab9b893`) não está disponível no histórico local deste checkout. O checkout atual está na branch `main`, commit `9b794fd0298cf330495fce65a3bd8d4859b376f4`; os documentos desta preparação estão no diretório de trabalho e ainda não aparecem como arquivos versionados.
+Este arquivo foi trazido de uma preparação anterior. As seções abaixo com data de 2026-11-19 preservam o registro histórico e **não devem ser lidas como uma avaliação atual**: o commit indicado naquele relatório (`22b6bb37e686334f6768421973322269cab9b893`) não está disponível no histórico local deste checkout. A atualização local corrente está na branch `main`, commit `a9fbe37`; os documentos desta preparação já estão versionados.
 
 ### Verificações do checkout atual (2026-11-21)
 
@@ -11,17 +11,19 @@ Este arquivo foi trazido de uma preparação anterior. As seções abaixo com da
 | Target Windows | `src/TraduSaga/TraduSaga.csproj`: `net8.0-windows10.0.19041.0`, `win-x64` e `SelfContained=true` por padrão | O projeto declara target Windows 10.0.19041 e runtime x64. Isso não comprova teste em todas as versões do Windows. |
 | Modelos | `src/TraduSaga/TraduSaga.csproj` procura `models/prediction/{chi,eng,jap,kor,rus}`; `.gitignore` exclui `/models/prediction/`; `git ls-files models/prediction` não lista arquivos | Os cinco arquivos estão presentes no diretório local, mas não são rastreados pelo Git. Origem, versão e licença continuam sem comprovação. O caminho `artifacts/...` citado na análise histórica não corresponde ao `.csproj` atual. |
 | Workflows | `.github/workflows/PR.check.yml` | Há validação de PR e `workflow_dispatch`, com restore bloqueado, auditoria de pacotes, testes e build. Não há workflow de release ou assinatura SignPath neste checkout. Isso não determina o estado de uma conta ou candidatura externa. |
-| Documentação | `README.md`, `PRIVACY.md`, `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `docs/CODE-SIGNING-POLICY.md` | Esses arquivos existem no diretório de trabalho atual. Assim, afirmações históricas de que o README tinha 435 bytes ou de que `PRIVACY.md` não existia não descrevem este estado. |
-| Repositório e releases | `.git/config` aponta `origin` para `github.com/maiconwiss/ProjectTraduSaga`; o dono confirmou este endereço como oficial | `ApplicationLinks.cs` foi atualizado para usar `ProjectTraduSaga`. A visibilidade atual do GitHub e a existência de releases públicos não foram verificadas neste audit local. |
-| Modelos/assinatura | `src/TraduSaga/TraduSaga.csproj`, `.github/workflows/PR.check.yml`, `src/TraduSaga/AssemblyInfo.cs` | O build local tem caminho parametrizável para modelos e metadados de produto versão 1.0.0; não há evidência local de workflow de release, procedência dos modelos ou assinatura de artefatos. |
+| Documentação | `README.md`, `PRIVACY.md`, `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `docs/CODE-SIGNING-POLICY.md` | Os documentos foram adicionados ao Git. O README contém os links da release `v1.0.0` e o SHA-256 do ZIP. |
+| Repositório e release | GitHub API: `maiconwiss/ProjectTraduSaga`, branch padrão `main` | O repositório está público; a release `v1.0.0` está publicada com o asset ZIP de 270.399.212 bytes. |
+| Proteção do branch | GitHub API: `/branches/main/protection` | `main` exige PR, aplica as regras também ao administrador, bloqueia force-push e exclusão e exige resolução de conversas. São exigidas zero aprovações e não há status check obrigatório. |
+| Segurança do GitHub | GitHub API: `security_and_analysis`, vulnerability alerts e private vulnerability reporting | Secret scanning, push protection, Dependabot security updates, Dependabot alerts e private vulnerability reporting estão habilitados. A habilitação não significa que os alertas foram revisados ou que não há achados. |
+| Assinatura | `.github/workflows/PR.check.yml` | Não há workflow de assinatura SignPath no checkout. O dono informa que o projeto está em processo de submissão à Fundação. |
 
 ### Pendências que exigem confirmação do mantenedor
 
 - O dono informou que o projeto está em processo de submissão à SignPath Foundation; o checkout ainda não tem workflow de assinatura.
 - Confirmar com SignPath se o dono pode acumular os papéis de Author, Reviewer e Approver durante a submissão.
-- O dono do projeto é Maicon Wissmann e o contato é pelo GitHub; não foi confirmada a configuração do recurso Private vulnerability reporting.
+- A origem e a licença dos modelos locais não estão comprovadas no repositório.
 
-O endereço oficial informado pelo dono foi aplicado aos links do app. Questões de elegibilidade SignPath e configuração de canais privados não foram inferidas a partir do código.
+O endereço oficial informado pelo dono foi aplicado aos links do app. A proteção de branch e as opções de segurança listadas acima foram conferidas diretamente nas configurações do GitHub; são configurações externas ao código versionado.
 
 ---
 
