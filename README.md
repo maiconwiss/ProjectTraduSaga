@@ -44,6 +44,8 @@ Consulte [SECURITY.md](SECURITY.md) para reportar vulnerabilidades de forma resp
 
 O repositório contém Apache License 2.0. A licença do código-fonte não substitui as licenças de fontes, ícones, modelos, bibliotecas nativas e dependências de terceiros. Consulte o relatório [docs/SIGNPATH-READINESS.md](docs/SIGNPATH-READINESS.md).
 
+Partes do TraduSaga foram adaptadas do [Translumo](https://github.com/ramjke/Translumo), de `ramjke`, distribuído sob Apache License 2.0.
+
 ## Assinatura de código
 
 Não há workflow de assinatura SignPath no repositório deste checkout. O projeto está em processo de submissão; não descreva executáveis como assinados pela SignPath sem evidência da assinatura.
