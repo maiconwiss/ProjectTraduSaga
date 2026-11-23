@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="src/TraduSaga/Resources/Icons/logo_full.png" alt="Logo do TraduSaga" width="240">
+</p>
+
 # TraduSaga
 
 Projeto de tradução de RPGs. O TraduSaga é um aplicativo Windows em C#/.NET que reconhece texto exibido na tela e apresenta sua tradução em uma janela sobreposta. Inclui captura de tela, reconhecimento óptico de caracteres (OCR), tradução por provedores externos selecionáveis e leitura em voz alta opcional.
