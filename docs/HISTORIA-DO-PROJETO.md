@@ -12,7 +12,7 @@ Foi então que comecei a procurar alguma ferramenta que pudesse me ajudar a trad
 
 Decidi, então, criar minha própria ferramenta, inicialmente pensando apenas no meu uso pessoal.
 
-Durante o desenvolvimento, estudando e aproveitando conhecimentos, ideias e implementações de outros projetos open source, fui aprimorando a ferramenta, realizando adaptações, desenvolvendo novas funcionalidades e implementando melhorias até chegar a algo muito maior do que eu havia imaginado inicialmente.
+Durante o desenvolvimento, estudei projetos de código aberto e aproveitei conhecimentos e implementações existentes. Partes do TraduSaga foram adaptadas do [Translumo](https://github.com/ramjke/Translumo), como informado também no README. A partir desses estudos, fui aprimorando a ferramenta, adaptando componentes, desenvolvendo funcionalidades e implementando melhorias. O TraduSaga ganhou identidade e direção próprias, sem que isso apague a origem dos componentes reutilizados.
 
 O resultado foi o TraduSaga.
 
@@ -22,17 +22,17 @@ Acredito que ninguém deveria deixar de aproveitar uma grande história simplesm
 
 O objetivo do TraduSaga é justamente esse: ajudar jogadores do mundo inteiro a compreender melhor os RPGs que tanto amam, tornando diálogos, missões, histórias e outros conteúdos mais acessíveis, independentemente da barreira linguística.
 
-Outro princípio importante do projeto é a praticidade: não é necessário modificar os arquivos originais dos jogos para utilizar a ferramenta. A proposta é permitir que o jogador acompanhe e compreenda o conteúdo do jogo sem precisar alterar sua instalação ou interferir em seus arquivos.
+Outro princípio importante do projeto é a praticidade. O aplicativo foi concebido para reconhecer texto exibido na tela e apresentar a tradução em uma janela sobreposta, sem exigir alterações nos arquivos originais do jogo. O funcionamento depende das capacidades do aplicativo e das condições de cada jogo e sistema; não há promessa de compatibilidade universal.
 
 ## Segurança e transparência em primeiro lugar
 
-Segurança não é um detalhe, mas um dos princípios fundamentais do TraduSaga.
+Segurança e transparência são princípios importantes do TraduSaga.
 
-O projeto busca oferecer uma ferramenta confiável, transparente e segura para seus usuários. Por isso, o código-fonte é aberto e está disponível para que qualquer pessoa possa examiná-lo, realizar auditorias e verificar seu funcionamento.
+O código-fonte aberto permite que a comunidade examine o repositório, revise mudanças e aponte problemas. Essa possibilidade de escrutínio não garante ausência de vulnerabilidades.
 
 Acredito que a confiança também é construída por meio da colaboração da comunidade.
 
-Se você identificar alguma vulnerabilidade, comportamento suspeito ou possível problema de segurança, fique à vontade para abrir uma Issue no GitHub, descrevendo suas descobertas e, sempre que possível, fornecendo evidências para que eu possa investigar e corrigir o problema.
+Para relatar bugs ou comportamentos suspeitos que não envolvam informações sensíveis, abra uma [issue no GitHub](https://github.com/maiconwiss/TraduSaga/issues) com uma descrição clara e, quando possível, evidências e passos para reproduzir o problema. Para uma possível vulnerabilidade, siga as instruções de [SECURITY.md](../SECURITY.md) e use o canal privado de relato do GitHub. Não publique detalhes exploráveis de vulnerabilidades ainda não corrigidas em uma issue pública.
 
 Toda contribuição que ajude a tornar o TraduSaga mais seguro será muito bem-vinda.
 
