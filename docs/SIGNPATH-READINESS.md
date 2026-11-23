@@ -36,7 +36,6 @@ O conteúdo restante foi mantido como histórico da análise anterior. Seus cami
 <!-- Relatório histórico original abaixo -->
 
 **Data da inspeção:** 2026-11-19  
-**Repositório:** `maiconwiss/traducaoRPG`  
 **Branch examinada:** `main`  
 **Commit da árvore examinada:** `22b6bb37e686334f6768421973322269cab9b893`  
 **Visibilidade observada:** privada  
