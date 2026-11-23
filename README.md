@@ -17,7 +17,7 @@ O TraduSaga é um aplicativo Windows em C#/.NET. Inclui captura de tela, reconhe
 A montagem compara o diálogo original em inglês com a versão em português durante uma partida de *Final Fantasy XIV*.
 
 <p align="center">
-  <img src="docs/images/exemplo-traducao-final-fantasy-xiv.jpg" alt="Comparação do diálogo em inglês e em português no Final Fantasy XIV usando o TraduSaga" width="960">
+  <img src="docs/images/exemplo-traducao-final-fantasy-xiv.jpg" alt="À esquerda, o diálogo original em inglês; à direita, a tradução em português brasileiro no Final Fantasy XIV" width="960">
 </p>
 
 **Assinatura:** o projeto está em processo de submissão à SignPath Foundation. Não há workflow de assinatura SignPath neste checkout; atualizaremos esta informação quando a submissão avançar e houver configuração ou aprovação confirmada.
