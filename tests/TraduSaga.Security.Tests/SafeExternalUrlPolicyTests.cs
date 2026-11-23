@@ -5,8 +5,8 @@ namespace TraduSaga.Security.Tests;
 public class SafeExternalUrlPolicyTests
 {
     [Theory]
-    [InlineData("https://github.com/maiconwiss/traducaoRPG")]
-    [InlineData("https://github.com/maiconwiss/traducaoRPG/issues/new")]
+    [InlineData("https://github.com/maiconwiss/TraduSaga")]
+    [InlineData("https://github.com/maiconwiss/TraduSaga/issues/new")]
     [InlineData("https://policies.google.com/privacy")]
     [InlineData("https://www.deepl.com/privacy")]
     [InlineData("https://yandex.com/legal/confidential/")]
@@ -16,7 +16,7 @@ public class SafeExternalUrlPolicyTests
     }
 
     [Theory]
-    [InlineData("http://github.com/maiconwiss/traducaoRPG")]
+    [InlineData("http://github.com/maiconwiss/TraduSaga")]
     [InlineData("https://github.com.attacker.invalid/")]
     [InlineData("https://user@github.com/")]
     [InlineData("https://github.com:444/")]
