@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
@@ -136,6 +137,10 @@ namespace TraduSaga.Processing
             Guid iterationId;
             IterationType lastIterationType = IterationType.None;
             bool sequentialText = false;
+            var progressiveCandidate = new ProgressiveTextCandidate();
+            var processingStopwatch = Stopwatch.StartNew();
+            TextDetectionResult pendingBestDetected = null;
+            Guid pendingIterationId = Guid.Empty;
             int clearTextDelayMs = _textProcessingConfiguration.AutoClearTexts
                 ? (int)_textProcessingConfiguration.AutoClearTextsDelayMs * -1
                 : int.MaxValue * -1;
@@ -228,8 +233,89 @@ namespace TraduSaga.Processing
                         byte[] screenshot = _capturer.CaptureScreen();
                         var primaryDetected = _textProvider.GetText(primaryOcr, screenshot);
                         lastIterationType = IterationType.Short;
-                        if (primaryDetected.ValidityScore == 0 || _textResultCacheService.IsCached(primaryDetected.Text, sequentialText))
+                        if (primaryDetected.ValidityScore == 0)
                         {
+                            var timedOutCandidate = progressiveCandidate.Observe(string.Empty, processingStopwatch.Elapsed);
+                            if (timedOutCandidate.Status == ProgressiveTextCandidateStatus.Confirmed
+                                && pendingBestDetected != null)
+                            {
+                                activeTranslationTasks.Add(TranslateTextAsync(pendingBestDetected.Text, pendingIterationId));
+                                pendingBestDetected = null;
+                            }
+
+                            continue;
+                        }
+
+                        var hadPendingCandidate = progressiveCandidate.HasPending;
+                        var hadConfirmedCandidate = progressiveCandidate.HasConfirmedText;
+                        var primaryIsCached = _textResultCacheService.IsCached(primaryDetected.Text, sequentialText);
+                        var primaryIsExactlyCached = primaryIsCached && _textResultCacheService.IsExactlyCached(primaryDetected.Text);
+                        var candidateUpdate = progressiveCandidate.Observe(primaryDetected.ValidatedText, processingStopwatch.Elapsed);
+                        var distinctTransition = candidateUpdate.Status == ProgressiveTextCandidateStatus.Confirmed
+                            && progressiveCandidate.HasPending;
+                        var newCandidateStarted = !hadPendingCandidate
+                            && candidateUpdate.Status == ProgressiveTextCandidateStatus.Pending;
+                        var reusePrimaryOnly = (hadConfirmedCandidate || distinctTransition)
+                            && primaryIsCached
+                            && !primaryIsExactlyCached;
+                        if (candidateUpdate.Status == ProgressiveTextCandidateStatus.Ignored)
+                        {
+                            continue;
+                        }
+
+                        if (candidateUpdate.Status == ProgressiveTextCandidateStatus.Confirmed)
+                        {
+                            if (candidateUpdate.Text == primaryDetected.ValidatedText
+                                && pendingBestDetected != null
+                                && candidateUpdate.Text.Length > pendingBestDetected.ValidatedText.Length)
+                            {
+                                pendingBestDetected = primaryDetected;
+                            }
+
+                            if (pendingBestDetected != null)
+                            {
+                                activeTranslationTasks.Add(TranslateTextAsync(pendingBestDetected.Text, pendingIterationId));
+                            }
+
+                            pendingBestDetected = null;
+                            if (progressiveCandidate.HasPending)
+                            {
+                                pendingBestDetected = primaryDetected;
+                                pendingIterationId = Guid.NewGuid();
+                                newCandidateStarted = true;
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+                        else if (hadPendingCandidate)
+                        {
+                            if (progressiveCandidate.PendingText != null
+                                && (pendingBestDetected == null
+                                    || primaryDetected.ValidatedText.Length >= pendingBestDetected.ValidatedText.Length))
+                            {
+                                pendingBestDetected = primaryDetected;
+                            }
+
+                            continue;
+                        }
+                        else if (primaryIsCached
+                            && (!hadConfirmedCandidate || primaryIsExactlyCached))
+                        {
+                            if (!hadPendingCandidate && !hadConfirmedCandidate && pendingBestDetected == null)
+                            {
+                                progressiveCandidate.Reset();
+                            }
+
+                            continue;
+                        }
+
+                        if (reusePrimaryOnly)
+                        {
+                            pendingBestDetected = primaryDetected;
+                            pendingIterationId = Guid.NewGuid();
+                            sequentialText = false;
                             continue;
                         }
 
@@ -238,6 +324,11 @@ namespace TraduSaga.Processing
                             var res = GetSecondaryCheckText(screenshot);
                             if (res != null && _textResultCacheService.IsCached(res.Text, false))
                             {
+                                if (!hadPendingCandidate && pendingBestDetected == null)
+                                {
+                                    progressiveCandidate.DiscardPending();
+                                }
+
                                 if (primaryDetected.Text.Length - res.Text.Length > SEQUENTIAL_DIFF_LETTERS)
                                 {
                                     sequentialText = true;
@@ -259,19 +350,43 @@ namespace TraduSaga.Processing
                         TextDetectionResult bestDetected = GetBestDetectionResult(detectedResults, 3);
                         if (bestDetected.ValidityScore <= MIN_SCORE_THRESHOLD)
                         {
+                            if (!hadPendingCandidate && !hadConfirmedCandidate && pendingBestDetected == null)
+                            {
+                                progressiveCandidate.Reset();
+                            }
+
                             sequentialText = false;
                             continue;
                         }
 
-                        if (_textResultCacheService.IsCached(bestDetected.Text, bestDetected.ValidityScore, sequentialText, 
-                                bestDetected.Language.Asian, out iterationId))
+                        var bestIsCached = _textResultCacheService.IsCached(bestDetected.Text, bestDetected.ValidityScore, sequentialText,
+                            bestDetected.Language.Asian, out iterationId);
+                        if (bestIsCached
+                            && ((!hadConfirmedCandidate && !distinctTransition)
+                                || _textResultCacheService.IsExactlyCached(bestDetected.Text)))
                         {
+                            if (!hadPendingCandidate && !hadConfirmedCandidate && pendingBestDetected == null)
+                            {
+                                progressiveCandidate.Reset();
+                            }
+
                             sequentialText = false;
                             continue;
                         }
 
+                        progressiveCandidate.UpdatePendingWithBestText(bestDetected.ValidatedText);
+                        if (string.Equals(progressiveCandidate.PendingText, bestDetected.ValidatedText, StringComparison.OrdinalIgnoreCase)
+                            && (pendingBestDetected == null
+                                || bestDetected.ValidatedText.Length >= pendingBestDetected.ValidatedText.Length))
+                        {
+                            pendingBestDetected = bestDetected;
+                        }
+
+                        if (newCandidateStarted || pendingIterationId == Guid.Empty)
+                        {
+                            pendingIterationId = iterationId;
+                        }
                         sequentialText = false;
-                        activeTranslationTasks.Add(TranslateTextAsync(bestDetected.Text, iterationId));
                     }
                 }
                 catch (CaptureException ex)

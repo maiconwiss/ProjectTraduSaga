@@ -11,4 +11,8 @@
     <ProjectReference Include="..\TraduSaga.TTS\TraduSaga.TTS.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="TraduSaga.Security.Tests" />
+  </ItemGroup>
+
 </Project>
