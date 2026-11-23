@@ -4,7 +4,13 @@
 
 # TraduSaga
 
-Projeto de tradução de RPGs. O TraduSaga é um aplicativo Windows em C#/.NET que reconhece texto exibido na tela e apresenta sua tradução em uma janela sobreposta. Inclui captura de tela, reconhecimento óptico de caracteres (OCR), tradução por provedores externos selecionáveis e leitura em voz alta opcional.
+**Porque nenhuma grande história deveria ser perdida na tradução.**
+
+O TraduSaga é uma ferramenta para traduzir texto de RPGs reconhecido na tela e exibir o resultado em uma janela sobreposta. O projeto busca ajudar jogadores a acompanhar diálogos, missões e histórias mesmo quando não dominam o idioma original. Sua proposta é funcionar sem exigir alterações nos arquivos originais dos jogos; os recursos disponíveis dependem das capacidades e da configuração do aplicativo.
+
+Tudo começou quando eu estava jogando *Final Fantasy XIV*: mesmo com inglês avançado, eu sentia dificuldade para compreender plenamente a narrativa. Depois de procurar uma ferramenta que atendesse a essa necessidade de forma segura e não encontrar, decidi criar uma solução inicialmente para uso pessoal. [Leia a história completa do TraduSaga](docs/HISTORIA-DO-PROJETO.md).
+
+O TraduSaga é um aplicativo Windows em C#/.NET. Inclui captura de tela, reconhecimento óptico de caracteres (OCR), tradução por provedores externos selecionáveis e leitura em voz alta opcional.
 
 **Assinatura:** o projeto está em processo de submissão à SignPath Foundation. Não há workflow de assinatura SignPath neste checkout; atualizaremos esta informação quando a submissão avançar e houver configuração ou aprovação confirmada.
 
@@ -26,9 +32,7 @@ Projeto de tradução de RPGs. O TraduSaga é um aplicativo Windows em C#/.NET q
 
 ## Instalação e utilização
 
-Este checkout não documenta um release oficial verificado nem fornece um link de download. Use apenas canais oficiais confirmados pelo mantenedor.
-
-Quando uma distribuição oficial estiver disponível, esta seção deverá apontar para o release exato, listar seu SHA-256 e explicar se o pacote é portátil ou usa instalador.
+O pacote oficial para Windows x64 está disponível na seção [Downloads](#downloads). Confira o release e o SHA-256 publicados antes de usar o arquivo.
 
 A utilização prevista é selecionar os idiomas de origem e destino, escolher um provedor de tradução, conceder ou negar o envio de texto a esse provedor, configurar OCR/TTS e iniciar a captura e tradução. A interface pode solicitar autorização do Windows para instalar pacotes de idioma OCR/TTS; essa operação instala capacidades oficiais do Windows e requer elevação.
 
