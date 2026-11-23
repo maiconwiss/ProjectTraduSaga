@@ -2,6 +2,6 @@
 
 public static class ApplicationLinks
 {
-    public const string ProjectRepository = "https://github.com/maiconwiss/ProjectTraduSaga";
-    public const string ReportIssue = "https://github.com/maiconwiss/ProjectTraduSaga/issues/new";
+    public const string ProjectRepository = "https://github.com/maiconwiss/TraduSaga";
+    public const string ReportIssue = "https://github.com/maiconwiss/TraduSaga/issues/new";
 }
