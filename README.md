@@ -8,9 +8,17 @@
 
 O TraduSaga é uma ferramenta para traduzir texto de RPGs reconhecido na tela e exibir o resultado em uma janela sobreposta. O projeto busca ajudar jogadores a acompanhar diálogos, missões e histórias mesmo quando não dominam o idioma original. Sua proposta é funcionar sem exigir alterações nos arquivos originais dos jogos; os recursos disponíveis dependem das capacidades e da configuração do aplicativo.
 
-Tudo começou quando eu estava jogando *Final Fantasy XIV*: mesmo com inglês avançado, eu sentia dificuldade para compreender plenamente a narrativa. Depois de procurar uma ferramenta que atendesse a essa necessidade de forma segura e não encontrar, decidi criar uma solução inicialmente para uso pessoal. [Leia a história completa do TraduSaga](docs/HISTORIA-DO-PROJETO.md).
+Tudo começou quando eu estava jogando *Final Fantasy XIV*: mesmo com inglês avançado, eu sentia dificuldade para compreender plenamente a narrativa. Depois de procurar uma ferramenta que atendesse a essa necessidade e não encontrar, decidi criar uma solução inicialmente para uso pessoal. [Leia a história completa do TraduSaga](docs/HISTORIA-DO-PROJETO.md).
 
 O TraduSaga é um aplicativo Windows em C#/.NET. Inclui captura de tela, reconhecimento óptico de caracteres (OCR), tradução por provedores externos selecionáveis e leitura em voz alta opcional.
+
+## Exemplo em jogo
+
+A montagem compara o diálogo original em inglês com a versão em português durante uma partida de *Final Fantasy XIV*.
+
+<p align="center">
+  <img src="docs/images/exemplo-traducao-final-fantasy-xiv.jpg" alt="Comparação do diálogo em inglês e em português no Final Fantasy XIV usando o TraduSaga" width="960">
+</p>
 
 **Assinatura:** o projeto está em processo de submissão à SignPath Foundation. Não há workflow de assinatura SignPath neste checkout; atualizaremos esta informação quando a submissão avançar e houver configuração ou aprovação confirmada.
 
