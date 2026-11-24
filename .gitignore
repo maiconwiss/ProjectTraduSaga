@@ -407,9 +407,9 @@ FodyWeavers.xsd
 .specs/
 .agents/
 .github/skills/tlc-spec-lean/
-.claude/skills/tlc-spec-lean/
-.cursor/skills/tlc-spec-lean/
-.windsurf/skills/tlc-spec-lean/
+.claude/
+.cursor/
+.windsurf/
 
 # Windows Installer files from build outputs
 *.cab
