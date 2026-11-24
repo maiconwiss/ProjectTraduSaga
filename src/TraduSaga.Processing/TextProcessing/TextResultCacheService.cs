@@ -55,14 +55,6 @@ namespace TraduSaga.Processing.TextProcessing
             }
         }
 
-        internal bool IsExactlyCached(string text)
-        {
-            lock (_cacheLock)
-            {
-                return IsCachedInternal(text);
-            }
-        }
-
         public bool IsCached(string text, float score, bool isSequentialText, bool isAsianLanguage, out Guid iterationId)
         {
             lock (_cacheLock)

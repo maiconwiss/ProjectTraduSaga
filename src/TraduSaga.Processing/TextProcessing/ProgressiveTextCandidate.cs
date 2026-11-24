@@ -1,6 +1,7 @@
 #nullable enable
 
 using System;
+using TraduSaga.Utils.Extensions;
 
 namespace TraduSaga.Processing.TextProcessing
 {
@@ -24,12 +25,15 @@ namespace TraduSaga.Processing.TextProcessing
         private string? _confirmedText;
         private T? _pendingResult;
         private TimeSpan _firstObservedAt;
+        private bool _pendingWasExtended;
 
         public bool HasPending => _pendingText != null;
 
         public string? PendingText => _pendingText;
 
         public bool HasConfirmedText => _confirmedText != null;
+
+        public bool PendingWasExtended => _pendingWasExtended;
 
         public TimeSpan? RemainingWait(TimeSpan elapsed)
         {
@@ -38,10 +42,9 @@ namespace TraduSaga.Processing.TextProcessing
                 : MaximumWait - (elapsed - _firstObservedAt);
         }
 
-        public bool IsPrefixOfConfirmed(string text) =>
+        public bool IsDuplicateOfConfirmed(string text) =>
             _confirmedText != null
-            && text.Length < _confirmedText.Length
-            && _confirmedText.StartsWith(text, StringComparison.OrdinalIgnoreCase);
+            && (IsStrictPrefix(text, _confirmedText) || AreSimilar(text, _confirmedText));
 
         public ProgressiveTextCandidateUpdate<T> Observe(string text, T? result, TimeSpan elapsed)
         {
@@ -54,8 +57,8 @@ namespace TraduSaga.Processing.TextProcessing
 
             if (_pendingText == null)
             {
-                if (string.Equals(_confirmedText, text, StringComparison.OrdinalIgnoreCase)
-                    || IsPrefixOfConfirmed(text))
+                if (AreEquivalent(_confirmedText, text)
+                    || IsDuplicateOfConfirmed(text))
                 {
                     return new(ProgressiveTextCandidateStatus.Ignored, null, default);
                 }
@@ -66,23 +69,34 @@ namespace TraduSaga.Processing.TextProcessing
                 return new(ProgressiveTextCandidateStatus.Pending, _pendingText, _pendingResult);
             }
 
-            if (string.Equals(_pendingText, text, StringComparison.OrdinalIgnoreCase))
+            if (AreEquivalent(_pendingText, text))
             {
                 return ConfirmPending();
             }
 
-            if (_pendingText.Length < text.Length
-                && text.StartsWith(_pendingText, StringComparison.OrdinalIgnoreCase))
+            if (IsStrictPrefix(_pendingText, text))
             {
                 _pendingText = text;
                 _pendingResult = result;
+                _pendingWasExtended = true;
                 return elapsed - _firstObservedAt >= MaximumWait
                     ? ConfirmPending()
                     : new(ProgressiveTextCandidateStatus.Pending, _pendingText, _pendingResult);
             }
 
-            if (_pendingText.StartsWith(text, StringComparison.OrdinalIgnoreCase))
+            if (IsStrictPrefix(text, _pendingText))
             {
+                return elapsed - _firstObservedAt >= MaximumWait
+                    ? ConfirmPending()
+                    : new(ProgressiveTextCandidateStatus.Pending, _pendingText, _pendingResult);
+            }
+
+            if (AreSimilar(_pendingText, text))
+            {
+                _pendingText = text;
+                _pendingResult = result;
+
+                _pendingWasExtended = true;
                 return elapsed - _firstObservedAt >= MaximumWait
                     ? ConfirmPending()
                     : new(ProgressiveTextCandidateStatus.Pending, _pendingText, _pendingResult);
@@ -94,6 +108,7 @@ namespace TraduSaga.Processing.TextProcessing
             _pendingText = text;
             _pendingResult = result;
             _firstObservedAt = elapsed;
+            _pendingWasExtended = false;
             return new(ProgressiveTextCandidateStatus.Confirmed, confirmedText, confirmedResult);
         }
 
@@ -104,15 +119,21 @@ namespace TraduSaga.Processing.TextProcessing
                 return;
             }
 
-            if (string.Equals(_pendingText, text, StringComparison.OrdinalIgnoreCase))
+            if (AreEquivalent(_pendingText, text))
             {
                 _pendingResult = result;
             }
-            else if (_pendingText.Length < text.Length
-                && text.StartsWith(_pendingText, StringComparison.OrdinalIgnoreCase))
+            else if (IsStrictPrefix(_pendingText, text))
             {
                 _pendingText = text;
                 _pendingResult = result;
+                _pendingWasExtended = true;
+            }
+            else if (AreSimilar(_pendingText, text))
+            {
+                _pendingText = text;
+                _pendingResult = result;
+                _pendingWasExtended = true;
             }
         }
 
@@ -121,12 +142,14 @@ namespace TraduSaga.Processing.TextProcessing
             _pendingText = null;
             _confirmedText = null;
             _pendingResult = default;
+            _pendingWasExtended = false;
         }
 
         public void DiscardPending()
         {
             _pendingText = null;
             _pendingResult = default;
+            _pendingWasExtended = false;
         }
 
         private ProgressiveTextCandidateUpdate<T> ConfirmPending()
@@ -135,7 +158,59 @@ namespace TraduSaga.Processing.TextProcessing
             _pendingText = null;
             var result = _pendingResult;
             _pendingResult = default;
+            _pendingWasExtended = false;
             return new(ProgressiveTextCandidateStatus.Confirmed, _confirmedText, result);
+        }
+
+        private static bool AreEquivalent(string? first, string? second)
+        {
+            if (first == null || second == null)
+            {
+                return false;
+            }
+
+            var firstLength = GetComparisonLength(first);
+            var secondLength = GetComparisonLength(second);
+            return firstLength > 0
+                && firstLength == secondLength
+                && string.Compare(first, 0, second, 0, firstLength, StringComparison.OrdinalIgnoreCase) == 0;
+        }
+
+        private static bool IsStrictPrefix(string prefix, string text)
+        {
+            var prefixLength = GetComparisonLength(prefix);
+            var textLength = GetComparisonLength(text);
+            return prefixLength > 0
+                && prefixLength < textLength
+                && string.Compare(prefix, 0, text, 0, prefixLength, StringComparison.OrdinalIgnoreCase) == 0;
+        }
+
+        private static int GetComparisonLength(string text)
+        {
+            var end = text.Length;
+            while (end > 0 && (char.IsWhiteSpace(text[end - 1]) || char.IsPunctuation(text[end - 1])))
+            {
+                end--;
+            }
+
+            return end;
+        }
+
+        private static bool AreSimilar(string first, string second)
+        {
+            var firstLength = GetComparisonLength(first);
+            var secondLength = GetComparisonLength(second);
+            if (Math.Min(firstLength, secondLength) < 30)
+            {
+                return false;
+            }
+
+            var firstText = first[..firstLength];
+            var secondText = second[..secondLength];
+            var jaroSimilarity = firstText.GetJaroSimilarity(secondText);
+            var diceSimilarity = firstText.GetDiceSimilarity(secondText);
+            var similarity = ((jaroSimilarity == 0 ? diceSimilarity : jaroSimilarity) + diceSimilarity) / 2.0;
+            return similarity >= 0.91;
         }
     }
 }

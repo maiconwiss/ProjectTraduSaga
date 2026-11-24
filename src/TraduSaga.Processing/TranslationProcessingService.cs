@@ -262,19 +262,17 @@ namespace TraduSaga.Processing
                             continue;
                         }
 
+                        if (progressiveCandidate.IsDuplicateOfConfirmed(primaryDetected.ValidatedText))
+                        {
+                            continue;
+                        }
+
                         var hadPendingCandidate = progressiveCandidate.HasPending;
-                        var hadConfirmedCandidate = progressiveCandidate.HasConfirmedText;
                         var primaryIsCached = _textResultCacheService.IsCached(primaryDetected.Text, sequentialText);
-                        var primaryIsExactlyCached = primaryIsCached && _textResultCacheService.IsExactlyCached(primaryDetected.Text);
                         var candidateUpdate = progressiveCandidate.Observe(primaryDetected.ValidatedText, primaryDetected,
                             processingStopwatch.Elapsed);
-                        var distinctTransition = candidateUpdate.Status == ProgressiveTextCandidateStatus.Confirmed
-                            && progressiveCandidate.HasPending;
                         var newCandidateStarted = !hadPendingCandidate
                             && candidateUpdate.Status == ProgressiveTextCandidateStatus.Pending;
-                        var reusePrimaryOnly = (hadConfirmedCandidate || distinctTransition)
-                            && primaryIsCached
-                            && !primaryIsExactlyCached;
                         if (candidateUpdate.Status == ProgressiveTextCandidateStatus.Ignored)
                         {
                             continue;
@@ -303,20 +301,13 @@ namespace TraduSaga.Processing
                             continue;
                         }
                         else if (primaryIsCached
-                            && (!hadConfirmedCandidate || primaryIsExactlyCached))
+                            && !progressiveCandidate.PendingWasExtended)
                         {
                             if (newCandidateStarted)
                             {
-                                progressiveCandidate.Reset();
+                                progressiveCandidate.DiscardPending();
                             }
 
-                            continue;
-                        }
-
-                        if (reusePrimaryOnly)
-                        {
-                            pendingIterationId = Guid.NewGuid();
-                            sequentialText = false;
                             continue;
                         }
 
@@ -364,10 +355,7 @@ namespace TraduSaga.Processing
 
                         var bestIsCached = _textResultCacheService.IsCached(bestDetected.Text, bestDetected.ValidityScore, sequentialText,
                             bestDetected.Language.Asian, out iterationId);
-                        var bestIsExactlyCached = bestIsCached && _textResultCacheService.IsExactlyCached(bestDetected.Text);
-                        if (bestIsCached
-                            && ((!hadConfirmedCandidate && !distinctTransition)
-                                || bestIsExactlyCached))
+                        if (bestIsCached && !progressiveCandidate.PendingWasExtended)
                         {
                             if (newCandidateStarted)
                             {
@@ -383,7 +371,7 @@ namespace TraduSaga.Processing
 
                         if (newCandidateStarted || pendingIterationId == Guid.Empty)
                         {
-                            pendingIterationId = bestIsCached ? Guid.NewGuid() : iterationId;
+                            pendingIterationId = iterationId;
                         }
                         sequentialText = false;
                     }
