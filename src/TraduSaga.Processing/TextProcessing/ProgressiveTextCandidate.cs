@@ -44,7 +44,9 @@ namespace TraduSaga.Processing.TextProcessing
 
         public bool IsDuplicateOfConfirmed(string text) =>
             _confirmedText != null
-            && (IsStrictPrefix(text, _confirmedText) || AreSimilar(text, _confirmedText));
+            && (AreEquivalent(text, _confirmedText)
+                || IsStrictPrefix(text, _confirmedText)
+                || AreSimilar(text, _confirmedText));
 
         public ProgressiveTextCandidateUpdate<T> Observe(string text, T? result, TimeSpan elapsed)
         {
