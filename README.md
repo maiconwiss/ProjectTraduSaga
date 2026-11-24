@@ -46,7 +46,7 @@ A utilização prevista é selecionar os idiomas de origem e destino, escolher u
 
 ## Modelos de previsão
 
-O build usa os cinco modelos locais `chi`, `eng`, `jap`, `kor` e `rus` armazenados em `models/prediction` na raiz do projeto e os publica ao lado do aplicativo. Para usar outro diretório, informe `-p:TraduSagaPredictionModelsPath="CAMINHO\PARA\prediction"` ao executar `dotnet build` ou `dotnet publish`.
+O build usa os cinco modelos `chi`, `eng`, `jap`, `kor` e `rus` versionados em `models/prediction` na raiz do projeto e os publica ao lado do aplicativo. As versões internas e os hashes SHA-256 estão em [models/prediction/README.md](models/prediction/README.md). Para usar outro diretório, informe `-p:TraduSagaPredictionModelsPath="CAMINHO\PARA\prediction"` ao executar `dotnet build` ou `dotnet publish`.
 
 ## Privacidade
 
