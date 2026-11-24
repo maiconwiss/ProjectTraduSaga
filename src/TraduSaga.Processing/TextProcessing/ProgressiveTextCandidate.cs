@@ -1,7 +1,7 @@
 #nullable enable
 
 using System;
-using TraduSaga.Utils.Extensions;
+using System.Buffers;
 
 namespace TraduSaga.Processing.TextProcessing
 {
@@ -205,12 +205,45 @@ namespace TraduSaga.Processing.TextProcessing
                 return false;
             }
 
-            var firstText = first[..firstLength];
-            var secondText = second[..secondLength];
-            var jaroSimilarity = firstText.GetJaroSimilarity(secondText);
-            var diceSimilarity = firstText.GetDiceSimilarity(secondText);
-            var similarity = ((jaroSimilarity == 0 ? diceSimilarity : jaroSimilarity) + diceSimilarity) / 2.0;
-            return similarity >= 0.91;
+            var shorter = firstLength <= secondLength ? first.AsSpan(0, firstLength) : second.AsSpan(0, secondLength);
+            var longer = firstLength <= secondLength ? second.AsSpan(0, secondLength) : first.AsSpan(0, firstLength);
+            if ((longer.Length - shorter.Length) / (double)longer.Length > 0.12)
+            {
+                return false;
+            }
+
+            var distances = ArrayPool<int>.Shared.Rent(shorter.Length + 1);
+            try
+            {
+                for (var column = 0; column <= shorter.Length; column++)
+                {
+                    distances[column] = column;
+                }
+
+                for (var row = 1; row <= longer.Length; row++)
+                {
+                    var diagonal = distances[0];
+                    distances[0] = row;
+                    for (var column = 1; column <= shorter.Length; column++)
+                    {
+                        var previous = distances[column];
+                        var substitutionCost = char.ToUpperInvariant(longer[row - 1]) == char.ToUpperInvariant(shorter[column - 1])
+                            ? 0
+                            : 1;
+                        distances[column] = Math.Min(
+                            Math.Min(distances[column] + 1, distances[column - 1] + 1),
+                            diagonal + substitutionCost);
+                        diagonal = previous;
+                    }
+                }
+
+                var similarity = 1.0 - distances[shorter.Length] / (double)longer.Length;
+                return similarity >= 0.91;
+            }
+            finally
+            {
+                ArrayPool<int>.Shared.Return(distances);
+            }
         }
     }
 }
