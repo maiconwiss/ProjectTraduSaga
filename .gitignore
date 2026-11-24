@@ -6,7 +6,6 @@
 # large artifacts
 ext_components/
 components.zip
-/models/prediction/
 
 # local tidy runnable copy (see run/ folder)
 run/
