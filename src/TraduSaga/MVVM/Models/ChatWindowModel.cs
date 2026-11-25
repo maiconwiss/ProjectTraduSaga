@@ -10,6 +10,7 @@ namespace TraduSaga.MVVM.Models
     {
         public ChatWindowConfiguration Configuration { get; set; }
         public ScreenCaptureConfiguration CaptureConfiguration { get; set; }
+        public TranslationWindowGeometry WindowGeometry { get; set; }
         public bool TranslationIsRunning => _translationProcessingService.IsStarted;
 
         public event EventHandler<ChatItemAddedEventArgs> ChatItemAdded;
@@ -23,10 +24,12 @@ namespace TraduSaga.MVVM.Models
         private readonly IProcessingService _translationProcessingService;
 
         public ChatWindowModel(ChatWindowConfiguration configuration, ScreenCaptureConfiguration captureConfiguration,
+            TranslationWindowGeometry windowGeometry,
             IProcessingService translationProcessingService)
         {
             this.Configuration = configuration;
             this.CaptureConfiguration = captureConfiguration;
+            this.WindowGeometry = windowGeometry;
             this._translationProcessingService = translationProcessingService;
             this._chatItemsCount = 0;
         }

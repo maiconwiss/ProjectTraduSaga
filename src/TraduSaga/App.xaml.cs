@@ -102,7 +102,7 @@ namespace TraduSaga
             }
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
@@ -137,12 +137,19 @@ namespace TraduSaga
                 return;
             }
 
+            var captureConfiguration = _serviceProvider.GetService<ScreenCaptureConfiguration>();
+            if (!WindowGeometryPolicy.IsCaptureAreaValid(captureConfiguration.CaptureArea, WindowGeometryPolicy.GetMonitorBounds()))
+            {
+                captureConfiguration.CaptureArea = System.Drawing.RectangleF.Empty;
+            }
+
             var systemConfiguration = _serviceProvider.GetService<SystemConfiguration>();
             LocalizationManager.ChangeAppCulture(new CultureInfo(systemConfiguration.ApplicationCulture));
 
             var chatViewModel = _serviceProvider.GetService<ChatWindowViewModel>();
             var dialogService = _serviceProvider.GetService<DialogService>();
-            dialogService.ShowWindowAsync(chatViewModel);
+            await dialogService.ShowWindowAsync(chatViewModel);
+            chatViewModel.ShowStartupHelp();
 
             _serviceProvider.RegisterUIInputController();
         }
@@ -173,6 +180,7 @@ namespace TraduSaga
             services.AddSingleton<ChatWindowModel>();
             services.AddSingleton<HotKeysServiceManager>();
             services.AddSingleton<ScreenCaptureConfiguration>();
+            services.AddSingleton<TranslationWindowGeometry>();
             services.AddSingleton<DialogService>();
             services.AddSingleton<LanguageService>();
             services.AddSingleton<TextDetectionProvider>();

@@ -21,6 +21,8 @@ namespace TraduSaga.Utils
                     sc.GetService<ISecretStore>(),
                     sc.GetService<ILogger<ConfigurationStorage>>());
                 confStorage.RegisterConfiguration<ChatWindowConfiguration>();
+                confStorage.RegisterConfiguration<ScreenCaptureConfiguration>();
+                confStorage.RegisterConfiguration<TranslationWindowGeometry>();
                 confStorage.RegisterConfiguration<OcrGeneralConfiguration>();
                 confStorage.RegisterConfiguration<TranslationConfiguration>();
                 confStorage.RegisterConfiguration<TtsConfiguration>();

@@ -26,7 +26,6 @@ namespace TraduSaga.MVVM.ViewModels
 
         public ICommand ShowHideSettingsCommand => new RelayCommand(OnShowHideSettings);
         public ICommand ShowHideChatCommand => new RelayCommand(OnShowHideChat);
-        public ICommand LoadedCommand => new RelayCommand(OnLoadedCommand);
 
         private bool _chatWindowIsVisible = true;
 
@@ -178,12 +177,10 @@ namespace TraduSaga.MVVM.ViewModels
             }
         }
 
-        private void OnLoadedCommand()
+        public void ShowStartupHelp()
         {
             SendHelpText();
         }
-
-
 
         private void SendHelpText()
         {
@@ -194,6 +191,7 @@ namespace TraduSaga.MVVM.ViewModels
 
             var configuration = _hotKeysServiceManager.Configuration;
             Model.AddChatItem(LocalizationManager.GetValue("Str.Hotkeys.GeneralHelp"), TextTypes.Info);
+            Model.AddChatItem(GetHotKeyHelpText(nameof(configuration.ChatVisibilityKey), "Str.Hotkeys.ChatVisibilityHelp"), TextTypes.Info);
             Model.AddChatItem(GetHotKeyHelpText(nameof(configuration.SettingVisibilityKey), "Str.Hotkeys.SettingsShowHelp"), TextTypes.Info);
             Model.AddChatItem(GetHotKeyHelpText(nameof(configuration.SelectAreaKey), "Str.Hotkeys.SelectAreaHelp"), TextTypes.Info);
             Model.AddChatItem(GetHotKeyHelpText(nameof(configuration.TranslationStateKey), "Str.Hotkeys.OnTranslationHelp"), TextTypes.Info);

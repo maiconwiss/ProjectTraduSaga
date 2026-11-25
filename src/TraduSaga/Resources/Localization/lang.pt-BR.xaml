@@ -67,6 +67,7 @@
     <system:String x:Key="Str.Hotkeys.SelectAreaHelp">Pressione '{0}' para selecionar a área de captura de texto</system:String>
     <system:String x:Key="Str.Hotkeys.OnTranslationHelp">Pressione '{0}' para iniciar a tradução</system:String>
     <system:String x:Key="Str.Hotkeys.GeneralHelp">Para controlar o aplicativo, use o menu de contexto da área de notificação ou os seguintes atalhos:</system:String>
+    <system:String x:Key="Str.Hotkeys.ChatVisibilityHelp">Pressione '{0}' para mostrar/ocultar a janela de tradução</system:String>
 
     <!-- Aparência -->
     <system:String x:Key="Str.AppearanceSettings.WindowColor">Cor da janela</system:String>

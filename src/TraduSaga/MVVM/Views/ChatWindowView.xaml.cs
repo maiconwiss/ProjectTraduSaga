@@ -21,6 +21,7 @@ namespace TraduSaga.MVVM.Views
         private static extern bool SetWindowDisplayAffinity(IntPtr hwnd, uint affinity);
 
         private const uint WDA_EXCLUDEFROMCAPTURE = 0x11;
+        private bool _restoringGeometry;
 
         public ChatWindowView()
         {
@@ -85,11 +86,69 @@ namespace TraduSaga.MVVM.Views
         {
             var viewModel = DataContext as ChatWindowViewModel;
 
+            RestoreWindowGeometry(viewModel.Model.WindowGeometry);
+
             viewModel.Model.ChatItemAdded += ModelOnChatItemAdded;
             viewModel.Model.ChatFirstItemsRemoved += ModelOnChatFirstItemsRemoved;
             viewModel.Model.Configuration.ExcludeFromCaptueChanged += Configuration_ExcludeFromCaptueChanged;
 
             ExcludeFromCapture(viewModel.Model.Configuration.ExcludeFromCaptue);
+        }
+
+        private void RestoreWindowGeometry(TranslationWindowGeometry geometry)
+        {
+            var bounds = WindowGeometryPolicy.Restore(
+                geometry.Left,
+                geometry.Top,
+                geometry.Width,
+                geometry.Height,
+                WindowGeometryPolicy.GetMonitorWorkAreas(),
+                Width,
+                Height);
+
+            _restoringGeometry = true;
+            Left = bounds.Left;
+            Top = bounds.Top;
+            Width = bounds.Width;
+            Height = bounds.Height;
+            _restoringGeometry = false;
+
+            geometry.Left = Left;
+            geometry.Top = Top;
+            geometry.Width = Width;
+            geometry.Height = Height;
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            SaveWindowGeometry();
+        }
+
+        private void Window_LocationChanged(object sender, EventArgs e)
+        {
+            SaveWindowGeometry();
+        }
+
+        private void SaveWindowGeometry(TranslationWindowGeometry geometry = null)
+        {
+            if (_restoringGeometry || WindowState != WindowState.Normal || !IsLoaded)
+            {
+                return;
+            }
+
+            geometry ??= (DataContext as ChatWindowViewModel)?.Model.WindowGeometry;
+            if (geometry == null || double.IsNaN(Left) || double.IsInfinity(Left)
+                || double.IsNaN(Top) || double.IsInfinity(Top)
+                || double.IsNaN(ActualWidth) || double.IsInfinity(ActualWidth) || ActualWidth <= 0
+                || double.IsNaN(ActualHeight) || double.IsInfinity(ActualHeight) || ActualHeight <= 0)
+            {
+                return;
+            }
+
+            geometry.Left = Left;
+            geometry.Top = Top;
+            geometry.Width = ActualWidth;
+            geometry.Height = ActualHeight;
         }
 
         private void Configuration_ExcludeFromCaptueChanged(object sender, EventArgs e)
