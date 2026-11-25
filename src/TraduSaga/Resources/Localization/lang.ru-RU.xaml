@@ -69,6 +69,7 @@
     <system:String x:Key="Str.Hotkeys.SelectAreaHelp">Нажмите '{0}' чтобы выбрать область захвата текста</system:String>
     <system:String x:Key="Str.Hotkeys.OnTranslationHelp">Нажмите '{0}' чтобы начать перевод</system:String>
     <system:String x:Key="Str.Hotkeys.GeneralHelp">Для управления приложением вы можете использовать контекстное меню из трея или горячие клавиши:</system:String>
+    <system:String x:Key="Str.Hotkeys.ChatVisibilityHelp">Нажмите '{0}', чтобы показать или скрыть окно перевода</system:String>
 
     <!--  Appearance settings  -->
     <system:String x:Key="Str.AppearanceSettings.WindowColor">Цвет окна</system:String>

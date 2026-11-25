@@ -69,6 +69,7 @@
     <system:String x:Key="Str.Hotkeys.SelectAreaHelp">Press '{0}' to select detection area</system:String>
     <system:String x:Key="Str.Hotkeys.OnTranslationHelp">Press '{0}' to start translation</system:String>
     <system:String x:Key="Str.Hotkeys.GeneralHelp">To control the app use context menu from tray or following hotkeys:</system:String>
+    <system:String x:Key="Str.Hotkeys.ChatVisibilityHelp">Press '{0}' to show or hide the translation window</system:String>
 
     <!--  Appearance settings  -->
     <system:String x:Key="Str.AppearanceSettings.WindowColor">Window color</system:String>

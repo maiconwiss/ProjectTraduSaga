@@ -69,6 +69,7 @@
     <system:String x:Key="Str.Hotkeys.SelectAreaHelp">请按 '{0}' 选择翻译区域</system:String>
     <system:String x:Key="Str.Hotkeys.OnTranslationHelp">请按 '{0}' 开始翻译</system:String>
     <system:String x:Key="Str.Hotkeys.GeneralHelp">要控制本应用，请使用托盘中的右键菜单，或以下快捷键：</system:String>
+    <system:String x:Key="Str.Hotkeys.ChatVisibilityHelp">请按 '{0}' 显示/隐藏翻译窗口</system:String>
 
     <!--  Appearance settings  -->
     <system:String x:Key="Str.AppearanceSettings.WindowColor">翻译墙背景色</system:String>

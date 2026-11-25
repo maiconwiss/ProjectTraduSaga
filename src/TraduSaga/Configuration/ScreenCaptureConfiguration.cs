@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Drawing;
 using Point = System.Windows.Point;
+using TraduSaga.Utils;
 
 namespace TraduSaga.Configuration
 {
-    public class ScreenCaptureConfiguration
+    public class ScreenCaptureConfiguration : BindableBase
     {
-        public RectangleF CaptureArea { get; set; }
+        private RectangleF _captureArea;
+
+        public RectangleF CaptureArea
+        {
+            get => _captureArea;
+            set => SetProperty(ref _captureArea, value);
+        }
     }
 }
