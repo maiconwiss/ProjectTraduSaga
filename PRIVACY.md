@@ -40,6 +40,10 @@ O aplicativo pode oferecer a instalação de capacidades oficiais de idioma do W
 
 Na inspeção estática do código do aplicativo neste checkout, não foi identificado endpoint de telemetria próprio do TraduSaga. Isso não é uma garantia de ausência de telemetria em todos os componentes, dependências ou versões; a análise de dependências e binários distribuídos ainda está pendente.
 
+## Verificação de atualizações
+
+Em cada inicialização, o aplicativo consulta a API pública `https://api.github.com/repos/maiconwiss/TraduSaga/releases/latest` do GitHub para verificar se há uma versão estável mais recente. A solicitação transmite os metadados normais de conexão HTTP ao GitHub, como o endereço IP; não inclui texto reconhecido/capturado, configurações nem chaves de API. O aplicativo não baixa nem instala atualizações automaticamente. Se houver uma versão nova, o usuário pode abrir a página oficial de Releases para fazer o download manualmente.
+
 ## Retenção e exclusão
 
 - O texto enviado a provedores externos fica sujeito às políticas e condições desses provedores.

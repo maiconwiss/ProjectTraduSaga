@@ -45,6 +45,31 @@
             MouseDown="rtbChat_MouseDown">
             <FlowDocument />
         </RichTextBox>
+        <Border
+            Padding="10,6"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Background="#E6202020"
+            CornerRadius="4"
+            Visibility="{Binding UpdateNoticeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Panel.ZIndex="2">
+            <DockPanel LastChildFill="False">
+                <TextBlock
+                    Margin="0,0,12,0"
+                    VerticalAlignment="Center"
+                    Foreground="White"
+                    Text="{Binding UpdateNoticeText}" />
+                <Button
+                    Margin="0,0,8,0"
+                    Command="{Binding OpenUpdatePageCommand}"
+                    Content="{DynamicResource Str.Update.Download}"
+                    Padding="8,2" />
+                <Button
+                    Command="{Binding DismissUpdateNoticeCommand}"
+                    Content="{DynamicResource Str.Update.Dismiss}"
+                    Padding="8,2" />
+            </DockPanel>
+        </Border>
         <TextBlock
             Name="fontTextBlockInstance"
             LineHeight="{Binding Model.Configuration.LineSpacing}"
