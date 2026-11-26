@@ -15,7 +15,7 @@ namespace TraduSaga.MVVM.Views
 
         private void btnWidowColor_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            colorSelector.Caption = LocalizationManager.GetValue("Str.AppearanceSettings.FontSizePanelCaption");
+            colorSelector.Caption = LocalizationManager.GetValue("Str.AppearanceSettings.WindowColorPanelCaption");
         }
 
         private void btnFontColor_Click(object sender, System.Windows.RoutedEventArgs e)

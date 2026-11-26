@@ -80,7 +80,13 @@
     <system:String x:Key="Str.AppearanceSettings.LineSpacing">行间距</system:String>
     <system:String x:Key="Str.AppearanceSettings.WindowOpacity">翻译墙背景透明度</system:String>
     <system:String x:Key="Str.AppearanceSettings.FontSizePanelCaption">字体大小 — 改变</system:String>
+    <system:String x:Key="Str.AppearanceSettings.WindowColorPanelCaption">窗口颜色 — 更改</system:String>
     <system:String x:Key="Str.AppearanceSettings.FontColorPanelCaption">字体颜色 — 改变</system:String>
+    <system:String x:Key="Str.AppearanceSettings.HexColor">十六进制</system:String>
+    <system:String x:Key="Str.AppearanceSettings.InvalidHexColor">请输入由六位 RGB 数字组成的有效颜色代码。</system:String>
+    <system:String x:Key="Str.AppearanceSettings.Eyedropper">捕获屏幕颜色</system:String>
+    <system:String x:Key="Str.AppearanceSettings.EyedropperInstruction">将光标移到所需颜色上，然后单击以捕获。按 Esc 取消。</system:String>
+    <system:String x:Key="Str.AppearanceSettings.ScreenSampleUnavailable">无法读取屏幕颜色。请使用调色板或输入十六进制颜色。</system:String>
     <system:String x:Key="Str.AppearanceSettings.KeepFormatting">保留翻译文本原始格式</system:String>
     <system:String x:Key="Str.AppearanceSettings.Left">左对齐</system:String>
     <system:String x:Key="Str.AppearanceSettings.Center">居中</system:String>
