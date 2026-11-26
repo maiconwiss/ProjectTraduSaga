@@ -1,0 +1,46 @@
+<Window
+    x:Class="TraduSaga.MVVM.Views.ScreenColorPickerWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    AllowsTransparency="True"
+    Background="#01000000"
+    Cursor="Cross"
+    MouseLeftButtonDown="Window_OnMouseLeftButtonDown"
+    MouseLeftButtonUp="Window_OnMouseLeftButtonUp"
+    MouseMove="Window_OnMouseMove"
+    PreviewKeyDown="Window_OnPreviewKeyDown"
+    ResizeMode="NoResize"
+    ShowInTaskbar="False"
+    SizeToContent="Manual"
+    Topmost="True"
+    WindowStartupLocation="Manual"
+    WindowStyle="None">
+    <!-- Nonzero alpha keeps the layered overlay in the mouse hit-test path. -->
+    <Canvas x:Name="OverlayCanvas" Background="#01000000" IsHitTestVisible="True">
+        <Border x:Name="SamplePreview"
+                Width="152"
+                Height="52"
+                Padding="8"
+                Background="#F2F3F5F7"
+                BorderBrush="#5DCAB5"
+                BorderThickness="1"
+                CornerRadius="6"
+                IsHitTestVisible="False"
+                Visibility="Collapsed">
+            <StackPanel Orientation="Horizontal">
+                <Border x:Name="SampleColorSwatch"
+                        Width="34"
+                        Height="34"
+                        Margin="0,0,10,0"
+                        BorderBrush="#CCFFFFFF"
+                        BorderThickness="1"
+                        CornerRadius="4" />
+                <TextBlock x:Name="SampleColorHex"
+                           VerticalAlignment="Center"
+                           FontFamily="Consolas"
+                           FontSize="14"
+                           Foreground="#111318" />
+            </StackPanel>
+        </Border>
+    </Canvas>
+</Window>

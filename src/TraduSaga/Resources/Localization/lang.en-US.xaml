@@ -80,7 +80,13 @@
     <system:String x:Key="Str.AppearanceSettings.LineSpacing">Line spacing</system:String>
     <system:String x:Key="Str.AppearanceSettings.WindowOpacity">Window opacity</system:String>
     <system:String x:Key="Str.AppearanceSettings.FontSizePanelCaption">Font size — change</system:String>
+    <system:String x:Key="Str.AppearanceSettings.WindowColorPanelCaption">Window color — change</system:String>
     <system:String x:Key="Str.AppearanceSettings.FontColorPanelCaption">Font color — change</system:String>
+    <system:String x:Key="Str.AppearanceSettings.HexColor">Hexadecimal</system:String>
+    <system:String x:Key="Str.AppearanceSettings.InvalidHexColor">Enter a valid hex color with six RGB digits.</system:String>
+    <system:String x:Key="Str.AppearanceSettings.Eyedropper">Capture screen color</system:String>
+    <system:String x:Key="Str.AppearanceSettings.EyedropperInstruction">Move the cursor to the desired color and click to capture it. Esc cancels.</system:String>
+    <system:String x:Key="Str.AppearanceSettings.ScreenSampleUnavailable">The screen color could not be read. Use the palette or enter a hex color.</system:String>
     <system:String x:Key="Str.AppearanceSettings.KeepFormatting">Keep source formatting</system:String>
     <system:String x:Key="Str.AppearanceSettings.Left">Align Text Left</system:String>
     <system:String x:Key="Str.AppearanceSettings.Center">Align Text Center</system:String>

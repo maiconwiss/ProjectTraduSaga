@@ -80,7 +80,13 @@
     <system:String x:Key="Str.AppearanceSettings.LineSpacing" xml:space="preserve">Межстрочный&#13;интервал</system:String>
     <system:String x:Key="Str.AppearanceSettings.WindowOpacity">Прозрачность окна</system:String>
     <system:String x:Key="Str.AppearanceSettings.FontSizePanelCaption">Цвет окна — изменить</system:String>
+    <system:String x:Key="Str.AppearanceSettings.WindowColorPanelCaption">Цвет окна — изменить</system:String>
     <system:String x:Key="Str.AppearanceSettings.FontColorPanelCaption">Цвет шрифта — изменить</system:String>
+    <system:String x:Key="Str.AppearanceSettings.HexColor">Шестнадцатеричный формат</system:String>
+    <system:String x:Key="Str.AppearanceSettings.InvalidHexColor">Введите корректный HEX-код с шестью RGB-цифрами.</system:String>
+    <system:String x:Key="Str.AppearanceSettings.Eyedropper">Захватить цвет с экрана</system:String>
+    <system:String x:Key="Str.AppearanceSettings.EyedropperInstruction">Наведите курсор на нужный цвет и щёлкните, чтобы захватить его. Esc отменяет действие.</system:String>
+    <system:String x:Key="Str.AppearanceSettings.ScreenSampleUnavailable">Не удалось прочитать цвет экрана. Используйте палитру или введите HEX-код.</system:String>
     <system:String x:Key="Str.AppearanceSettings.KeepFormatting" xml:space="preserve">Сохранять исходное&#13;форматирование</system:String>
     <system:String x:Key="Str.AppearanceSettings.TextAlignment">Выравнивание текста</system:String>
     <system:String x:Key="Str.AppearanceSettings.Left">Выравнивать текст по левому краю</system:String>

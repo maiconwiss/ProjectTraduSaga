@@ -8,6 +8,7 @@ using TraduSaga.Configuration;
 using TraduSaga.Infrastructure;
 using TraduSaga.MVVM.Models;
 using TraduSaga.MVVM.ViewModels;
+using TraduSaga.Services;
 using TraduSaga.Utils;
 
 namespace TraduSaga.MVVM.Views
@@ -78,6 +79,11 @@ namespace TraduSaga.MVVM.Views
 
         private void Window_Deactivated(object sender, EventArgs e)
         {
+            if (!ScreenColorSamplingSession.ShouldReactivateChatWindow)
+            {
+                return;
+            }
+
             this.Topmost = true;
             this.Activate();
         }

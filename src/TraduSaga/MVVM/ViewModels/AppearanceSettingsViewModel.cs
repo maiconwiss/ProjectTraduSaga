@@ -37,6 +37,12 @@ namespace TraduSaga.MVVM.ViewModels
             }
         }
 
+        public bool IsBackgroundColorSelection
+        {
+            get => _isBackgroundColorSelection;
+            private set => SetProperty(ref _isBackgroundColorSelection, value);
+        }
+
         public Color SelectedColor
         {
             get => _selectedColor;
@@ -53,6 +59,7 @@ namespace TraduSaga.MVVM.ViewModels
         private Action<ChatWindowConfiguration, Color> _newColorSetter;
         private string _additionalPanelTriggerName;
         private bool _colorPickerIsOpened;
+        private bool _isBackgroundColorSelection;
         private Color _selectedColor;
 
         private readonly ChatUITextMediator _chatMediator;
@@ -73,12 +80,12 @@ namespace TraduSaga.MVVM.ViewModels
 
         private void OnChangeBackColorClicked(Control sender)
         {
-            OnChangeColorClicked(sender, (model, color) => model.BackgroundColor = color, Model.BackgroundColor);
+            OnChangeColorClicked(sender, (model, color) => model.BackgroundColor = color, Model.BackgroundColor, true);
         }
 
         private void OnChangeFontColorClicked(Control sender)
         {
-            OnChangeColorClicked(sender, (model, color) => model.FontColor = color, Model.FontColor);
+            OnChangeColorClicked(sender, (model, color) => model.FontColor = color, Model.FontColor, false);
         }
 
         private void OnSendTestTextCommand()
@@ -97,8 +104,9 @@ namespace TraduSaga.MVVM.ViewModels
             SelectedColor = default(Color);
         }
 
-        private void OnChangeColorClicked(Control sender, Action<ChatWindowConfiguration, Color> newColorSetter, Color currentColor)
+        private void OnChangeColorClicked(Control sender, Action<ChatWindowConfiguration, Color> newColorSetter, Color currentColor, bool isBackgroundColor)
         {
+            IsBackgroundColorSelection = isBackgroundColor;
             OpenCloseColorPanel(sender.Name);
 
             _newColorSetter = newColorSetter;
@@ -116,6 +124,7 @@ namespace TraduSaga.MVVM.ViewModels
         {
             _additionalPanelTriggerName = null;
             ColorPickerIsOpened = false;
+            IsBackgroundColorSelection = false;
         }
 
         private void OnLocalizedValueChanged(string key, string oldValue)

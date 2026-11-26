@@ -157,6 +157,7 @@
                 BorderBrush="{DynamicResource PrimaryHueMidBrush}"
                 BorderThickness="1,0,0,0"
                 ColorPickedCommand="{Binding ColorIsPickedCommand}"
+                ShowAdvancedColorOptions="{Binding IsBackgroundColorSelection}"
                 SelectedColor="{Binding SelectedColor, Mode=TwoWay}"
                 UseLayoutRounding="False" />
         </DockPanel>

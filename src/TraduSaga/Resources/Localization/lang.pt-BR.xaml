@@ -78,7 +78,13 @@
     <system:String x:Key="Str.AppearanceSettings.LineSpacing">Espaçamento entre linhas</system:String>
     <system:String x:Key="Str.AppearanceSettings.WindowOpacity">Opacidade da janela</system:String>
     <system:String x:Key="Str.AppearanceSettings.FontSizePanelCaption">Tamanho da fonte — alterar</system:String>
+    <system:String x:Key="Str.AppearanceSettings.WindowColorPanelCaption">Cor da janela — alterar</system:String>
     <system:String x:Key="Str.AppearanceSettings.FontColorPanelCaption">Cor da fonte — alterar</system:String>
+    <system:String x:Key="Str.AppearanceSettings.HexColor">Hexadecimal</system:String>
+    <system:String x:Key="Str.AppearanceSettings.InvalidHexColor">Informe uma cor hexadecimal válida com seis dígitos RGB.</system:String>
+    <system:String x:Key="Str.AppearanceSettings.Eyedropper">Capturar cor da tela</system:String>
+    <system:String x:Key="Str.AppearanceSettings.EyedropperInstruction">Mova o cursor até a cor desejada e clique para capturá-la. Esc cancela.</system:String>
+    <system:String x:Key="Str.AppearanceSettings.ScreenSampleUnavailable">Não foi possível ler a cor da tela. Use a paleta ou informe um código hexadecimal.</system:String>
     <system:String x:Key="Str.AppearanceSettings.KeepFormatting">Manter a formatação original</system:String>
     <system:String x:Key="Str.AppearanceSettings.Left">Alinhar o texto à esquerda</system:String>
     <system:String x:Key="Str.AppearanceSettings.Center">Centralizar o texto</system:String>
