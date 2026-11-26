@@ -16,6 +16,7 @@ using TraduSaga.Configuration;
 using TraduSaga.Dialog;
 using TraduSaga.HotKeys;
 using TraduSaga.Infrastructure.Encryption;
+using TraduSaga.Infrastructure.Constants;
 using TraduSaga.Infrastructure.Language;
 using TraduSaga.Infrastructure.MachineLearning;
 using TraduSaga.MVVM.Models;
@@ -161,7 +162,7 @@ namespace TraduSaga
             try
             {
                 var updateCheckService = _serviceProvider.GetService<UpdateCheckService>();
-                var latestVersion = await updateCheckService.CheckForUpdateAsync(TraduSaga.Infrastructure.Constants.Global.GetVersion());
+                var latestVersion = await updateCheckService.CheckForUpdateAsync(Global.GetVersion());
                 if (latestVersion != null)
                 {
                     chatViewModel.ShowUpdateNotice(latestVersion);
