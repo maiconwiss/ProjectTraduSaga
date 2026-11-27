@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -26,8 +27,16 @@ namespace TraduSaga.MVVM.ViewModels
 
         public ICommand ShowHideSettingsCommand => new RelayCommand(OnShowHideSettings);
         public ICommand ShowHideChatCommand => new RelayCommand(OnShowHideChat);
+        public ICommand DismissUpdateNoticeCommand => new RelayCommand(DismissUpdateNotice);
+        public ICommand OpenUpdatePageCommand => new RelayCommand(OpenUpdatePage);
+
+        public bool UpdateNoticeVisible => _updateNoticeState.IsVisible;
+
+        public string UpdateNoticeText => _updateNoticeState.GetText(
+            LocalizationManager.GetValue("Str.Update.Available", true) ?? "Update available: {0} → {1}");
 
         private bool _chatWindowIsVisible = true;
+        private readonly UpdateNoticeState _updateNoticeState = new UpdateNoticeState(Global.GetVersion());
 
         private readonly DialogService _dialogService;
         private readonly IServiceProvider _serviceProvider;
@@ -82,6 +91,7 @@ namespace TraduSaga.MVVM.ViewModels
 
         private void LocalizationManagerOnCultureChanged(object sender, EventArgs e)
         {
+            OnPropertyChanged(nameof(UpdateNoticeText));
             if (!_helpTextDisplayed)
             {
                 return;
@@ -180,6 +190,32 @@ namespace TraduSaga.MVVM.ViewModels
         public void ShowStartupHelp()
         {
             SendHelpText();
+        }
+
+        public void ShowUpdateNotice(Version availableVersion)
+        {
+            _updateNoticeState.Show(availableVersion);
+            OnPropertyChanged(nameof(UpdateNoticeText));
+            OnPropertyChanged(nameof(UpdateNoticeVisible));
+        }
+
+        private void OpenUpdatePage()
+        {
+            try
+            {
+                UpdateCheckService.OpenReleasesPage(url => Process.Start(new ProcessStartInfo(url) { UseShellExecute = true }));
+            }
+            catch (Exception exception)
+            {
+                _logger.LogWarning(exception, "Failed to open the Releases page");
+            }
+        }
+
+        private void DismissUpdateNotice()
+        {
+            _updateNoticeState.Dismiss();
+            OnPropertyChanged(nameof(UpdateNoticeText));
+            OnPropertyChanged(nameof(UpdateNoticeVisible));
         }
 
         private void SendHelpText()

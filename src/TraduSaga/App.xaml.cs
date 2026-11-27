@@ -9,12 +9,14 @@ using System.Globalization;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using TraduSaga.Configuration;
 using TraduSaga.Dialog;
 using TraduSaga.HotKeys;
 using TraduSaga.Infrastructure.Encryption;
+using TraduSaga.Infrastructure.Constants;
 using TraduSaga.Infrastructure.Language;
 using TraduSaga.Infrastructure.MachineLearning;
 using TraduSaga.MVVM.Models;
@@ -152,6 +154,24 @@ namespace TraduSaga
             chatViewModel.ShowStartupHelp();
 
             _serviceProvider.RegisterUIInputController();
+            _ = CheckForUpdatesAsync(chatViewModel);
+        }
+
+        private async Task CheckForUpdatesAsync(ChatWindowViewModel chatViewModel)
+        {
+            try
+            {
+                var updateCheckService = _serviceProvider.GetService<UpdateCheckService>();
+                var latestVersion = await updateCheckService.CheckForUpdateAsync(Global.GetVersion());
+                if (latestVersion != null)
+                {
+                    chatViewModel.ShowUpdateNotice(latestVersion);
+                }
+            }
+            catch (Exception exception)
+            {
+                _logger.LogWarning(exception, "Update check failed");
+            }
         }
 
         private void ConfigureServices(ServiceCollection services)
@@ -182,6 +202,7 @@ namespace TraduSaga
             services.AddSingleton<ScreenCaptureConfiguration>();
             services.AddSingleton<TranslationWindowGeometry>();
             services.AddSingleton<DialogService>();
+            services.AddSingleton<UpdateCheckService>();
             services.AddSingleton<LanguageService>();
             services.AddSingleton<TextDetectionProvider>();
             services.AddSingleton<TextValidityPredictor>();

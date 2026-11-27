@@ -108,6 +108,9 @@
     <system:String x:Key="Str.About.Authors">作者：Maicon Wissmann</system:String>
     <system:String x:Key="Str.About.ProjectPage">项目主页</system:String>
     <system:String x:Key="Str.About.ReportIssue">意见与反馈</system:String>
+    <system:String x:Key="Str.Update.Available">发现新版本：{0} → {1}</system:String>
+    <system:String x:Key="Str.Update.Download">下载</system:String>
+    <system:String x:Key="Str.Update.Dismiss">关闭</system:String>
 
     <!--  Navigation menu  -->
     <system:String x:Key="Str.Navigation.Languages">语言</system:String>

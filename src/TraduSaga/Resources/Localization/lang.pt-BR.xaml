@@ -103,6 +103,9 @@
     <system:String x:Key="Str.About.Authors">Autores: Maicon Wissmann</system:String>
     <system:String x:Key="Str.About.ProjectPage">Página do projeto</system:String>
     <system:String x:Key="Str.About.ReportIssue">Relatar um problema</system:String>
+    <system:String x:Key="Str.Update.Available">Atualização disponível: {0} → {1}</system:String>
+    <system:String x:Key="Str.Update.Download">Baixar</system:String>
+    <system:String x:Key="Str.Update.Dismiss">Dispensar</system:String>
 
     <!-- Navegação -->
     <system:String x:Key="Str.Navigation.Languages">Idiomas</system:String>
