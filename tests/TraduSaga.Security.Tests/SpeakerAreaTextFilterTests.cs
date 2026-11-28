@@ -44,10 +44,65 @@ public class SpeakerAreaTextFilterTests
         };
 
         var (dialogue, speaker) = SpeakerAreaTextFilter.Split(
-            lines, new RectangleF(100, 200, 400, 200), new RectangleF(90, 190, 20, 20), false);
+            lines, new RectangleF(100, 200, 400, 200), new RectangleF(70, 170, 20, 20), false);
 
         Assert.Equal("", speaker);
         Assert.Equal(new[] { "Hello world" }, dialogue);
+    }
+
+    [Fact]
+    public void Split_WhenWordCenterIsOutsideButItsBoundsOverlapSpeakerArea_KeepsWholeNameAsLabel()
+    {
+        var lines = new[]
+        {
+            new OcrTextLine("Flame Mage", new[]
+            {
+                new OcrTextWord("Flame", new RectangleF(0, 0, 30, 12)),
+                new OcrTextWord("Mage", new RectangleF(35, 0, 30, 12))
+            })
+        };
+
+        var (dialogue, speaker) = SpeakerAreaTextFilter.Split(
+            lines, new RectangleF(100, 200, 400, 200), new RectangleF(96, 198, 14, 20), false);
+
+        Assert.Equal("Flame", speaker);
+        Assert.Equal(new[] { "Mage" }, dialogue);
+    }
+
+    [Fact]
+    public void Split_RecognizesShortNameWhenItsBoundsOverlapSpeakerArea()
+    {
+        var lines = new[]
+        {
+            new OcrTextLine("Cid", new[]
+            {
+                new OcrTextWord("Cid", new RectangleF(0, 0, 9, 12))
+            })
+        };
+
+        var (dialogue, speaker) = SpeakerAreaTextFilter.Split(
+            lines, new RectangleF(100, 200, 400, 200), new RectangleF(99, 198, 3, 20), false);
+
+        Assert.Equal("Cid", speaker);
+        Assert.Empty(dialogue);
+    }
+
+    [Fact]
+    public void Split_WhenOnlyATinyEdgeOverlapsSpeakerArea_KeepsWordAsDialogue()
+    {
+        var lines = new[]
+        {
+            new OcrTextLine("Dialogue", new[]
+            {
+                new OcrTextWord("Dialogue", new RectangleF(0, 0, 30, 12))
+            })
+        };
+
+        var (dialogue, speaker) = SpeakerAreaTextFilter.Split(
+            lines, new RectangleF(100, 200, 400, 200), new RectangleF(98, 198, 3, 20), false);
+
+        Assert.Empty(speaker);
+        Assert.Equal(new[] { "Dialogue" }, dialogue);
     }
 
     [Fact]

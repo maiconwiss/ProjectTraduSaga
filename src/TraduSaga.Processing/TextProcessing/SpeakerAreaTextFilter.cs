@@ -11,6 +11,7 @@ namespace TraduSaga.Processing.TextProcessing
     internal static class SpeakerAreaTextFilter
     {
         private static readonly Regex PunctuationAtStart = new Regex(@"^[,.;:!?%\)\]\}]", RegexOptions.Compiled);
+        private const float MINIMUM_WORD_AREA_OVERLAP = 0.15f;
 
         public static (string[] DialogueLines, string SpeakerText) Split(
             OcrTextLine[] lines, RectangleF captureArea, RectangleF speakerArea, bool removeSpaces)
@@ -26,9 +27,7 @@ namespace TraduSaga.Processing.TextProcessing
                 var speakerWords = new List<string>();
                 foreach (var word in line.Words)
                 {
-                    var centerX = captureArea.X + word.Bounds.X + word.Bounds.Width / 2;
-                    var centerY = captureArea.Y + word.Bounds.Y + word.Bounds.Height / 2;
-                    (speakerArea.Contains(centerX, centerY) ? speakerWords : dialogueWords).Add(word.Text);
+                    (BelongsToSpeakerArea(word.Bounds, captureArea, speakerArea) ? speakerWords : dialogueWords).Add(word.Text);
                 }
 
                 if (speakerWords.Count > 0)
@@ -38,6 +37,24 @@ namespace TraduSaga.Processing.TextProcessing
             }
 
             return (dialogue.ToArray(), string.Join(" ", speaker));
+        }
+
+        private static bool BelongsToSpeakerArea(RectangleF wordBounds, RectangleF captureArea, RectangleF speakerArea)
+        {
+            var screenBounds = new RectangleF(
+                captureArea.X + wordBounds.X,
+                captureArea.Y + wordBounds.Y,
+                wordBounds.Width,
+                wordBounds.Height);
+            if (speakerArea.Contains(screenBounds.Left + screenBounds.Width / 2, screenBounds.Top + screenBounds.Height / 2))
+                return true;
+
+            var wordArea = screenBounds.Width * screenBounds.Height;
+            if (wordArea <= 0)
+                return false;
+
+            var overlap = RectangleF.Intersect(screenBounds, speakerArea);
+            return !overlap.IsEmpty && overlap.Width * overlap.Height / wordArea >= MINIMUM_WORD_AREA_OVERLAP;
         }
 
         private static string JoinWords(IReadOnlyList<string> words, bool removeSpaces)
