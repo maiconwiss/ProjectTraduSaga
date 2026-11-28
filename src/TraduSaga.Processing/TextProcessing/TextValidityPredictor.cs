@@ -95,6 +95,17 @@ namespace TraduSaga.Processing.TextProcessing
                 return 0.0f;
             }
 
+            if (ShortPunctuatedUtterancePolicy.TryGetValidityScore(validatedText, out var shortUtteranceScore))
+            {
+                validatedText = PreProcessText(textLines);
+                if (_textTokenizer != null)
+                {
+                    validatedText = _textTokenizer.Tokenize(validatedText);
+                }
+
+                return shortUtteranceScore;
+            }
+
             validatedText = PreProcessText(textLines);
             if (_textTokenizer != null)
             {
