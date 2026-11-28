@@ -531,6 +531,7 @@ namespace TraduSaga.Processing
         private TextDetectionResult GetBestDetectionResult(Task<TextDetectionResult>[] results, int minCountSameResults)
         {
             var maxScoreIndex = 0;
+            TextDetectionResult consensusResult = null;
             for (var i = 0; i < results.Length; i++)
             {
                 maxScoreIndex = results[maxScoreIndex].Result.CompareTo(results[i].Result) > 0 ? maxScoreIndex : i;
@@ -555,11 +556,14 @@ namespace TraduSaga.Processing
                 if (intRowCount >= minCountSameResults)
                 {
                     results[inRowIndex].Result.ValidityScore = float.MaxValue;
-                    return results[inRowIndex].Result;
+                    consensusResult = results[inRowIndex].Result;
+                    break;
                 }
             }
 
-            return results[maxScoreIndex].Result;
+            var bestResult = consensusResult ?? results[maxScoreIndex].Result;
+            return SpeakerAreaDetectionResultSelector.PreferSpeakerAwareResult(
+                bestResult, results.Select(result => result.Result));
         }
 
         private void TranslationConfigurationOnPropertyChanged(object sender, PropertyChangedEventArgs e)
