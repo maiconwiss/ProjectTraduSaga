@@ -8,6 +8,23 @@ namespace TraduSaga.Configuration
 {
     public static class WindowGeometryPolicy
     {
+        public static bool IsSpeakerAreaWithinCaptureArea(RectangleF speakerArea, RectangleF captureArea)
+        {
+            return IsFiniteAndPositive(speakerArea)
+                && IsFiniteAndPositive(captureArea)
+                && captureArea.Contains(speakerArea);
+        }
+
+        private static bool IsFiniteAndPositive(RectangleF area)
+        {
+            return float.IsFinite(area.X)
+                && float.IsFinite(area.Y)
+                && float.IsFinite(area.Width)
+                && float.IsFinite(area.Height)
+                && area.Width > 0
+                && area.Height > 0;
+        }
+
         private const double MINIMUM_VISIBLE_SIZE = 80;
 
         private delegate bool MonitorEnumProc(IntPtr monitor, IntPtr deviceContext, IntPtr monitorRect, IntPtr data);

@@ -148,6 +148,13 @@ namespace TraduSaga
 
         private void SelectionAreaWindow_OnKeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.Escape)
+            {
+                e.Handled = true;
+                CloseDialog(true);
+                return;
+            }
+
             if (_readonlyMode)
             {
                 CloseDialog(true);

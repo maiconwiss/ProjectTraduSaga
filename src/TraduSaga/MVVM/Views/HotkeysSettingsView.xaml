@@ -63,6 +63,22 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+                    <StackPanel Margin="0,8,0,0" DockPanel.Dock="Bottom">
+                        <TextBlock
+                            Margin="8,0,8,8"
+                            Text="{DynamicResource Str.Hotkeys.SpeakerAreaInstructions}"
+                            TextWrapping="Wrap" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="8,0,12,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding SpeakerAreaStatus}" />
+                            <Button
+                                IsEnabled="{Binding IsSpeakerAreaConfigured}"
+                                Content="{DynamicResource Str.Hotkeys.ClearSpeakerArea}"
+                                Command="{Binding ClearSpeakerAreaCommand}" />
+                        </StackPanel>
+                    </StackPanel>
                 </DockPanel>
             </Border>
         </StackPanel>

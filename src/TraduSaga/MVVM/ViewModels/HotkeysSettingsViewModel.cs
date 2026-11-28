@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using Microsoft.Xaml.Behaviors.Core;
 using SharpDX.XInput;
+using TraduSaga.Configuration;
 using TraduSaga.HotKeys;
 using TraduSaga.MVVM.Models;
 using TraduSaga.Utils;
@@ -12,20 +13,28 @@ using TraduSaga.Utils.Extensions;
 
 namespace TraduSaga.MVVM.ViewModels
 {
-    public class HotkeysSettingsViewModel : IDisposable
+    public class HotkeysSettingsViewModel : BindableBase, IDisposable
     {
         public IList<HotKeyModel> Model { get; set; }
 
         public ICommand ExitEditModeCommand => new ActionCommand(OnExitEditMode);
         public ICommand EnterEditModeCommand => new ActionCommand(OnEnterEditMode);
+        public ICommand ClearSpeakerAreaCommand => new ActionCommand(ClearSpeakerArea);
+        public bool IsSpeakerAreaConfigured => !_captureConfiguration.SpeakerArea.IsEmpty;
+        public string SpeakerAreaStatus => LocalizationManager.GetValue(
+            IsSpeakerAreaConfigured ? "Str.Hotkeys.SpeakerAreaConfigured" : "Str.Hotkeys.SpeakerAreaNotConfigured", true);
 
         private readonly HotKeysConfiguration _configuration;
         private readonly HotKeysServiceManager _serviceManager;
+        private readonly ScreenCaptureConfiguration _captureConfiguration;
 
-        public HotkeysSettingsViewModel(HotKeysServiceManager hotKeysServiceManager)
+        public HotkeysSettingsViewModel(HotKeysServiceManager hotKeysServiceManager, ScreenCaptureConfiguration captureConfiguration)
         {
             this._configuration = hotKeysServiceManager.Configuration;
             this._serviceManager = hotKeysServiceManager;
+            this._captureConfiguration = captureConfiguration;
+            _captureConfiguration.PropertyChanged += CaptureConfigurationOnPropertyChanged;
+            LocalizationManager.CultureChanged += LocalizationManagerOnCultureChanged;
 
             var defaultGamepadHotKey = new GamepadHotKeyInfo(GamepadKeyCode.None);
             Model = new List<HotKeyModel>(new[]
@@ -42,6 +51,10 @@ namespace TraduSaga.MVVM.ViewModels
                     hotKeysServiceManager.GamepadHotkeysEnabled ? _configuration.SelectAreaGamepadKey : defaultGamepadHotKey,
                     nameof(_configuration.SelectAreaKey), nameof(_configuration.SelectAreaGamepadKey),
                     LocalizationManager.GetValue("Str.Hotkeys.SelectArea", false, OnLocalizedValueChanged, this)),
+                new HotKeyModel(_configuration.SelectSpeakerAreaKey,
+                    hotKeysServiceManager.GamepadHotkeysEnabled ? _configuration.SelectSpeakerAreaGamepadKey : defaultGamepadHotKey,
+                    nameof(_configuration.SelectSpeakerAreaKey), nameof(_configuration.SelectSpeakerAreaGamepadKey),
+                    LocalizationManager.GetValue("Str.Hotkeys.SelectSpeakerArea", false, OnLocalizedValueChanged, this)),
                 new HotKeyModel(_configuration.TranslationStateKey,
                     hotKeysServiceManager.GamepadHotkeysEnabled ? _configuration.TranslationStateGamepadKey : defaultGamepadHotKey,
                     nameof(_configuration.TranslationStateKey), nameof(_configuration.TranslationStateGamepadKey),
@@ -127,8 +140,31 @@ namespace TraduSaga.MVVM.ViewModels
             displayHotKey.Description = LocalizationManager.GetValue(key, false, OnLocalizedValueChanged, this);
         }
 
+        private void CaptureConfigurationOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ScreenCaptureConfiguration.SpeakerArea))
+            {
+                OnPropertyChanged(nameof(IsSpeakerAreaConfigured));
+                OnPropertyChanged(nameof(SpeakerAreaStatus));
+            }
+        }
+
+        private void LocalizationManagerOnCultureChanged(object sender, EventArgs e)
+        {
+            OnPropertyChanged(nameof(SpeakerAreaStatus));
+        }
+
+        private void ClearSpeakerArea()
+        {
+            _captureConfiguration.SpeakerArea = System.Drawing.RectangleF.Empty;
+            OnPropertyChanged(nameof(IsSpeakerAreaConfigured));
+            OnPropertyChanged(nameof(SpeakerAreaStatus));
+        }
+
         public void Dispose()
         {
+            _captureConfiguration.PropertyChanged -= CaptureConfigurationOnPropertyChanged;
+            LocalizationManager.CultureChanged -= LocalizationManagerOnCultureChanged;
             LocalizationManager.ReleaseChangedValuesCallbacks(this);
         }
     }

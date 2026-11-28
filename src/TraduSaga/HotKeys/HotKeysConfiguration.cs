@@ -10,6 +10,7 @@ namespace TraduSaga.HotKeys
         {
             ChatVisibilityKey = new HotKeyInfo(Key.Oem3, KeyModifier.None),
             SelectAreaKey = new HotKeyInfo(Key.Q, KeyModifier.Alt),
+            SelectSpeakerAreaKey = new HotKeyInfo(Key.U, KeyModifier.Alt),
             SettingVisibilityKey = new HotKeyInfo(Key.G, KeyModifier.Alt),
             TranslationStateKey = new HotKeyInfo(Key.T, KeyModifier.Alt),
             ShowSelectionAreaKey = new HotKeyInfo(Key.Y, KeyModifier.Alt),
@@ -18,6 +19,7 @@ namespace TraduSaga.HotKeys
 
             ChatVisibilityGamepadKey = new GamepadHotKeyInfo(GamepadKeyCode.None),
             SelectAreaGamepadKey = new GamepadHotKeyInfo(GamepadKeyCode.None),
+            SelectSpeakerAreaGamepadKey = new GamepadHotKeyInfo(GamepadKeyCode.None),
             SettingVisibilityGamepadKey = new GamepadHotKeyInfo(GamepadKeyCode.None),
             TranslationStateGamepadKey = new GamepadHotKeyInfo(GamepadKeyCode.None),
             ShowSelectionAreaGamepadKey = new GamepadHotKeyInfo(GamepadKeyCode.None),
@@ -50,6 +52,12 @@ namespace TraduSaga.HotKeys
             {
                 SetProperty(ref _selectAreaKey, value);
             }
+        }
+
+        public HotKeyInfo SelectSpeakerAreaKey
+        {
+            get => _selectSpeakerAreaKey;
+            set => SetProperty(ref _selectSpeakerAreaKey, value);
         }
 
         public HotKeyInfo SettingVisibilityKey
@@ -117,6 +125,12 @@ namespace TraduSaga.HotKeys
             }
         }
 
+        public GamepadHotKeyInfo SelectSpeakerAreaGamepadKey
+        {
+            get => _selectSpeakerAreaGamepadKey;
+            set => SetProperty(ref _selectSpeakerAreaGamepadKey, value);
+        }
+
         public GamepadHotKeyInfo SettingVisibilityGamepadKey
         {
             get => _settingVisibilityGamepadKey;
@@ -155,6 +169,7 @@ namespace TraduSaga.HotKeys
 
         private HotKeyInfo _chatVisibilityKey;
         private HotKeyInfo _selectAreaKey;
+        private HotKeyInfo _selectSpeakerAreaKey;
         private HotKeyInfo _translationStateKey;
         private HotKeyInfo _settingVisibilityKey;
         private HotKeyInfo _showSelectionAreaKey;
@@ -163,6 +178,7 @@ namespace TraduSaga.HotKeys
 
         private GamepadHotKeyInfo _chatVisibilityGamepadKey;
         private GamepadHotKeyInfo _selectAreaGamepadKey;
+        private GamepadHotKeyInfo _selectSpeakerAreaGamepadKey;
         private GamepadHotKeyInfo _translationStateGamepadKey;
         private GamepadHotKeyInfo _settingVisibilityGamepadKey;
         private GamepadHotKeyInfo _showSelectionAreaGamepadKey;

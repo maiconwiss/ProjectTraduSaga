@@ -19,7 +19,11 @@ public class WindowSettingsPersistenceTests
             var path = Path.Combine(directory, "settings");
             var protection = new DpapiDataProtectionService();
             var secretStore = new DpapiSecretStore(protection, Path.Combine(directory, "secrets"));
-            var capture = new ScreenCaptureConfiguration { CaptureArea = new RectangleF(12, 34, 500, 300) };
+            var capture = new ScreenCaptureConfiguration
+            {
+                CaptureArea = new RectangleF(12, 34, 500, 300),
+                SpeakerArea = new RectangleF(30, 45, 80, 24)
+            };
             var geometry = new TranslationWindowGeometry { Left = 123, Top = 234, Width = 600, Height = 320 };
             var storage = CreateStorage(capture, geometry, path, protection, secretStore);
             Assert.True(storage.LoadConfiguration());
@@ -31,6 +35,7 @@ public class WindowSettingsPersistenceTests
 
             Assert.True(restoredStorage.LoadConfiguration());
             Assert.Equal(new RectangleF(12, 34, 500, 300), restoredCapture.CaptureArea);
+            Assert.Equal(new RectangleF(30, 45, 80, 24), restoredCapture.SpeakerArea);
             Assert.Equal(123, restoredGeometry.Left);
             Assert.Equal(234, restoredGeometry.Top);
             Assert.Equal(600, restoredGeometry.Width);
@@ -58,6 +63,7 @@ public class WindowSettingsPersistenceTests
             Assert.True(storage.LoadConfiguration());
 
             capture.CaptureArea = new RectangleF(15, 25, 350, 240);
+            capture.SpeakerArea = new RectangleF(20, 32, 80, 24);
             await WaitForSettingsFile(path);
 
             var restoredCapture = new ScreenCaptureConfiguration();
@@ -65,6 +71,7 @@ public class WindowSettingsPersistenceTests
             var restoredStorage = CreateStorage(restoredCapture, restoredGeometry, path, protection, secretStore);
             Assert.True(restoredStorage.LoadConfiguration());
             Assert.Equal(new RectangleF(15, 25, 350, 240), restoredCapture.CaptureArea);
+            Assert.Equal(new RectangleF(20, 32, 80, 24), restoredCapture.SpeakerArea);
         }
         finally
         {

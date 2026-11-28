@@ -59,6 +59,14 @@
     <system:String x:Key="Str.Hotkeys.ChatVisibility">Mostrar/ocultar janela de tradução</system:String>
     <system:String x:Key="Str.Hotkeys.SettingsVisibility">Abrir/fechar janela de configurações</system:String>
     <system:String x:Key="Str.Hotkeys.SelectArea">Selecionar área de captura</system:String>
+    <system:String x:Key="Str.Hotkeys.SelectSpeakerArea">Selecionar área do rótulo do falante*</system:String>
+    <system:String x:Key="Str.Hotkeys.ClearSpeakerArea">Limpar área do rótulo do falante</system:String>
+    <system:String x:Key="Str.Hotkeys.SpeakerAreaConfigured">Área do rótulo do falante configurada.</system:String>
+    <system:String x:Key="Str.Hotkeys.SpeakerAreaNotConfigured">Área do rótulo do falante não configurada.</system:String>
+    <system:String x:Key="Str.Hotkeys.SpeakerAreaMustFit">A área do rótulo do falante deve ficar dentro da área principal de captura.</system:String>
+    <system:String x:Key="Str.Hotkeys.SelectMainAreaFirst">Selecione primeiro a área principal de captura.</system:String>
+    <system:String x:Key="Str.Hotkeys.SpeakerAreaNeedsSelection">A área principal de captura mudou. Selecione novamente a área do rótulo do falante.</system:String>
+    <system:String x:Key="Str.Hotkeys.SpeakerAreaInstructions">* Para separar o rótulo da fala: 1) selecione primeiro a área principal de captura; 2) use o atalho “Selecionar área do rótulo do falante*” desta lista e marque o nome dentro da área principal; 3) inicie a tradução. Se alterar a área principal, selecione o rótulo novamente. Essa configuração é opcional.</system:String>
     <system:String x:Key="Str.Hotkeys.OnOffTranslation">Ativar/desativar tradução</system:String>
     <system:String x:Key="Str.Hotkeys.ShowSelectArea">Mostrar área de captura selecionada</system:String>
     <system:String x:Key="Str.Hotkeys.OnceTranslate">Selecionar área e traduzir o texto uma vez</system:String>

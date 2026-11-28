@@ -7,6 +7,18 @@ namespace TraduSaga.Security.Tests;
 public class WindowGeometryPolicyTests
 {
     [Fact]
+    public void SpeakerAreaMustBePositiveAndContainedByTheMainCaptureArea()
+    {
+        var captureArea = new RectangleF(100, 200, 640, 360);
+
+        Assert.True(WindowGeometryPolicy.IsSpeakerAreaWithinCaptureArea(new RectangleF(120, 220, 100, 40), captureArea));
+        Assert.True(WindowGeometryPolicy.IsSpeakerAreaWithinCaptureArea(captureArea, captureArea));
+        Assert.False(WindowGeometryPolicy.IsSpeakerAreaWithinCaptureArea(new RectangleF(90, 220, 100, 40), captureArea));
+        Assert.False(WindowGeometryPolicy.IsSpeakerAreaWithinCaptureArea(new RectangleF(120, 220, 0, 40), captureArea));
+        Assert.False(WindowGeometryPolicy.IsSpeakerAreaWithinCaptureArea(RectangleF.Empty, captureArea));
+    }
+
+    [Fact]
     public void Restore_KeepsSavedBoundsWhenTheyAreInsideAWorkArea()
     {
         var bounds = WindowGeometryPolicy.Restore(

@@ -9,6 +9,6 @@ namespace TraduSaga.OCR
         int Confidence { get; }
         Languages DetectionLanguage { get; }
 
-        string[] GetTextLines(byte[] image);
+        OcrTextLine[] GetTextLines(byte[] image);
     }
 }

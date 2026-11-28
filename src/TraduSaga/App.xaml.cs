@@ -145,6 +145,12 @@ namespace TraduSaga
                 captureConfiguration.CaptureArea = System.Drawing.RectangleF.Empty;
             }
 
+            if (!captureConfiguration.SpeakerArea.IsEmpty
+                && !WindowGeometryPolicy.IsSpeakerAreaWithinCaptureArea(captureConfiguration.SpeakerArea, captureConfiguration.CaptureArea))
+            {
+                captureConfiguration.SpeakerArea = System.Drawing.RectangleF.Empty;
+            }
+
             var systemConfiguration = _serviceProvider.GetService<SystemConfiguration>();
             LocalizationManager.ChangeAppCulture(new CultureInfo(systemConfiguration.ApplicationCulture));
 
@@ -200,6 +206,7 @@ namespace TraduSaga
             services.AddSingleton<ChatWindowModel>();
             services.AddSingleton<HotKeysServiceManager>();
             services.AddSingleton<ScreenCaptureConfiguration>();
+            services.AddSingleton<ISpeakerAreaConfiguration>(provider => provider.GetRequiredService<ScreenCaptureConfiguration>());
             services.AddSingleton<TranslationWindowGeometry>();
             services.AddSingleton<DialogService>();
             services.AddSingleton<UpdateCheckService>();
