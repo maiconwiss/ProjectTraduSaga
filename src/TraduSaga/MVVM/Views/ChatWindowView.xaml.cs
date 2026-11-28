@@ -57,8 +57,13 @@ namespace TraduSaga.MVVM.Views
             rtbChat.CaretPosition = rtbChat.CaretPosition.DocumentEnd;
 
             var paragraph = new Paragraph { LineHeight = fontTextBlockInstance.LineHeight, TextAlignment = fontTextBlockInstance.TextAlignment};
-            var run = GetRunInstance(textType).Clone(text);
-            paragraph.Inlines.Add(run);
+            var lines = text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+            for (var i = 0; i < lines.Length; i++)
+            {
+                if (i > 0)
+                    paragraph.Inlines.Add(new LineBreak());
+                paragraph.Inlines.Add(GetRunInstance(textType).Clone(lines[i]));
+            }
             rtbChat.Document.Blocks.Add(paragraph);
 
             rtbChat.ScrollToEnd();

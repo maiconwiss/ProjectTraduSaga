@@ -61,6 +61,14 @@
     <system:String x:Key="Str.Hotkeys.ChatVisibility">Show/hide translation window</system:String>
     <system:String x:Key="Str.Hotkeys.SettingsVisibility">Open/close the Settings window</system:String>
     <system:String x:Key="Str.Hotkeys.SelectArea">Select screen capture area</system:String>
+    <system:String x:Key="Str.Hotkeys.SelectSpeakerArea">Select speaker label area*</system:String>
+    <system:String x:Key="Str.Hotkeys.ClearSpeakerArea">Clear speaker label area</system:String>
+    <system:String x:Key="Str.Hotkeys.SpeakerAreaConfigured">Speaker label area is configured.</system:String>
+    <system:String x:Key="Str.Hotkeys.SpeakerAreaNotConfigured">Speaker label area is not configured.</system:String>
+    <system:String x:Key="Str.Hotkeys.SpeakerAreaMustFit">The speaker label area must be inside the main capture area.</system:String>
+    <system:String x:Key="Str.Hotkeys.SelectMainAreaFirst">Select the main capture area first.</system:String>
+    <system:String x:Key="Str.Hotkeys.SpeakerAreaNeedsSelection">The main capture area changed. Select the speaker label area again.</system:String>
+    <system:String x:Key="Str.Hotkeys.SpeakerAreaInstructions">* To separate the speaker label from dialogue: 1) select the main capture area first; 2) use the “Select speaker label area*” shortcut in this list and mark the label inside the main area; 3) start translation. If you change the main area, select the label area again. This setting is optional.</system:String>
     <system:String x:Key="Str.Hotkeys.OnOffTranslation">On/off translation</system:String>
     <system:String x:Key="Str.Hotkeys.ShowSelectArea">Show selected screen capture area</system:String>
     <system:String x:Key="Str.Hotkeys.OnceTranslate">Select area and translate text once</system:String>

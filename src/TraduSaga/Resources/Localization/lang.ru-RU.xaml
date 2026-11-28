@@ -61,6 +61,14 @@
     <system:String x:Key="Str.Hotkeys.ChatVisibility">Показать/скрыть окно перевода</system:String>
     <system:String x:Key="Str.Hotkeys.SettingsVisibility">Показать/закрыть окно настроек</system:String>
     <system:String x:Key="Str.Hotkeys.SelectArea">Выбрать область перевода</system:String>
+    <system:String x:Key="Str.Hotkeys.SelectSpeakerArea">Выбрать область имени говорящего*</system:String>
+    <system:String x:Key="Str.Hotkeys.ClearSpeakerArea">Очистить область имени говорящего</system:String>
+    <system:String x:Key="Str.Hotkeys.SpeakerAreaConfigured">Область имени говорящего настроена.</system:String>
+    <system:String x:Key="Str.Hotkeys.SpeakerAreaNotConfigured">Область имени говорящего не настроена.</system:String>
+    <system:String x:Key="Str.Hotkeys.SpeakerAreaMustFit">Область имени говорящего должна находиться внутри основной области захвата.</system:String>
+    <system:String x:Key="Str.Hotkeys.SelectMainAreaFirst">Сначала выберите основную область захвата.</system:String>
+    <system:String x:Key="Str.Hotkeys.SpeakerAreaNeedsSelection">Основная область захвата изменилась. Выберите область имени говорящего снова.</system:String>
+    <system:String x:Key="Str.Hotkeys.SpeakerAreaInstructions">* Чтобы отделить имя говорящего от реплики: 1) сначала выберите основную область захвата; 2) используйте указанное в списке сочетание «Выбрать область имени говорящего*» и выделите имя внутри основной области; 3) запустите перевод. Если изменить основную область, выберите область имени снова. Эта настройка необязательна.</system:String>
     <system:String x:Key="Str.Hotkeys.OnOffTranslation">Включить/выключить перевод</system:String>
     <system:String x:Key="Str.Hotkeys.ShowSelectArea">Показать выбранную область перевода</system:String>
     <system:String x:Key="Str.Hotkeys.OnceTranslate">Выбрать область и перевести текст один раз</system:String>

@@ -11,6 +11,7 @@ namespace TraduSaga.HotKeys
     public class HotKeysServiceManager
     {
         public event EventHandler SelectAreaKeyPressed;
+        public event EventHandler SelectSpeakerAreaKeyPressed;
         public event EventHandler ChatVisibilityKeyPressed;
         public event EventHandler TranslationStateKeyPressed;
         public event EventHandler SettingVisibilityKeyPressed;
@@ -37,6 +38,7 @@ namespace TraduSaga.HotKeys
             {
                 (nameof(configuration.ChatVisibilityKey), nameof(configuration.ChatVisibilityGamepadKey)),
                 (nameof(configuration.SelectAreaKey), nameof(configuration.SelectAreaGamepadKey)),
+                (nameof(configuration.SelectSpeakerAreaKey), nameof(configuration.SelectSpeakerAreaGamepadKey)),
                 (nameof(configuration.TranslationStateKey), nameof(configuration.TranslationStateGamepadKey)),
                 (nameof(configuration.SettingVisibilityKey), nameof(configuration.SettingVisibilityGamepadKey)),
                 (nameof(configuration.ShowSelectionAreaKey), nameof(configuration.ShowSelectionAreaGamepadKey)),
@@ -175,6 +177,11 @@ namespace TraduSaga.HotKeys
             SelectAreaKeyPressed?.Invoke(this, EventArgs.Empty);
         }
 
+        private void OnSelectSpeakerAreaPressed()
+        {
+            SelectSpeakerAreaKeyPressed?.Invoke(this, EventArgs.Empty);
+        }
+
         private void OnChatVisibilityPressed()
         {
             ChatVisibilityKeyPressed?.Invoke(this, EventArgs.Empty);
@@ -213,6 +220,10 @@ namespace TraduSaga.HotKeys
                         configuration.SelectAreaKey.KeyModifier, OnSelectAreaPressed)
                 },
                 {
+                    nameof(configuration.SelectSpeakerAreaKey), new HotKey(configuration.SelectSpeakerAreaKey.Key,
+                        configuration.SelectSpeakerAreaKey.KeyModifier, OnSelectSpeakerAreaPressed)
+                },
+                {
                     nameof(configuration.TranslationStateKey), new HotKey(configuration.TranslationStateKey.Key,
                         configuration.TranslationStateKey.KeyModifier, OnTranslationStatePressed)
                 },
@@ -241,6 +252,7 @@ namespace TraduSaga.HotKeys
             {
                 { nameof(configuration.ChatVisibilityGamepadKey), new GamepadHotKey(configuration.ChatVisibilityGamepadKey.Key, OnChatVisibilityPressed) },
                 { nameof(configuration.SelectAreaGamepadKey), new GamepadHotKey(configuration.SelectAreaGamepadKey.Key, OnSelectAreaPressed) },
+                { nameof(configuration.SelectSpeakerAreaGamepadKey), new GamepadHotKey(configuration.SelectSpeakerAreaGamepadKey.Key, OnSelectSpeakerAreaPressed) },
                 { nameof(configuration.TranslationStateGamepadKey), new GamepadHotKey(configuration.TranslationStateGamepadKey.Key, OnTranslationStatePressed) },
                 { nameof(configuration.SettingVisibilityGamepadKey), new GamepadHotKey(configuration.SettingVisibilityGamepadKey.Key, OnSettingVisibilityPressed) },
                 { nameof(configuration.ShowSelectionAreaGamepadKey), new GamepadHotKey(configuration.ShowSelectionAreaGamepadKey.Key, OnShowSelectionAreaPressed) },

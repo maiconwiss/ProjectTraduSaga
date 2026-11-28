@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using TraduSaga.Infrastructure.Constants;
@@ -37,11 +38,13 @@ namespace TraduSaga.Processing.TextProcessing
             this._configuration = configuration;
         }
 
-        public virtual TextDetectionResult GetText(IOCREngine ocrEngine, byte[] img)
+        public virtual TextDetectionResult GetText(IOCREngine ocrEngine, byte[] img, RectangleF captureArea = default, RectangleF speakerArea = default)
         {
             try
             {
-                var detectedLines = ocrEngine.GetTextLines(img);
+                var ocrLines = ocrEngine.GetTextLines(img);
+                var (detectedLines, speakerText) = SpeakerAreaTextFilter.Split(
+                    ocrLines, captureArea, speakerArea, _languageDescriptor.UseSpaceRemover);
                 var resultText = PreProcessTextLines(detectedLines);
                 var scorePrediction = _textValidityPredictor.Predict(detectedLines, out var validatedText);
 
@@ -49,7 +52,8 @@ namespace TraduSaga.Processing.TextProcessing
                 {
                     ValidityScore = scorePrediction,
                     Text = _configuration.KeepFormatting ? string.Join(Environment.NewLine, detectedLines) :  resultText,
-                    ValidatedText = validatedText
+                    ValidatedText = validatedText,
+                    SpeakerText = speakerText
                 };
             }
             catch (Exception ex)
@@ -58,9 +62,9 @@ namespace TraduSaga.Processing.TextProcessing
             }
         }
 
-        public virtual Task<TextDetectionResult> GetTextAsync(IOCREngine ocrEngine, byte[] img)
+        public virtual Task<TextDetectionResult> GetTextAsync(IOCREngine ocrEngine, byte[] img, RectangleF captureArea = default, RectangleF speakerArea = default)
         {
-            return Factory.StartNew(() => GetText(ocrEngine, img));
+            return Factory.StartNew(() => GetText(ocrEngine, img, captureArea, speakerArea));
         }
 
         private string PreProcessTextLines(IEnumerable<string> textLines)

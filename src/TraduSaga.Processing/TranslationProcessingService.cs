@@ -29,6 +29,7 @@ namespace TraduSaga.Processing
         public bool IsStarted => !_ctSource?.IsCancellationRequested ?? false;
 
         private readonly ICapturerFactory _capturerFactory;
+        private readonly ISpeakerAreaConfiguration _captureConfiguration;
         private readonly IChatTextMediator _chatTextMediator;
         private readonly OcrEnginesFactory _enginesFactory;
         private readonly TranslatorFactory _translatorFactory;
@@ -56,13 +57,14 @@ namespace TraduSaga.Processing
 
         private const float MIN_SCORE_THRESHOLD = 2.1f;
         
-        public TranslationProcessingService(ICapturerFactory capturerFactory, IChatTextMediator chatTextMediator, OcrEnginesFactory ocrEnginesFactory,
+        public TranslationProcessingService(ICapturerFactory capturerFactory, ISpeakerAreaConfiguration captureConfiguration, IChatTextMediator chatTextMediator, OcrEnginesFactory ocrEnginesFactory,
             TranslatorFactory translationFactory, TtsFactory ttsFactory, TtsConfiguration ttsConfiguration,
             TextDetectionProvider textProvider, TranslationConfiguration translationConfiguration, OcrGeneralConfiguration ocrConfiguration, 
             TextResultCacheService textResultCacheService, TextProcessingConfiguration textConfiguration,
             IProviderConsentService providerConsentService, ILogger<TranslationProcessingService> logger)
         {
             _logger = logger;
+            _captureConfiguration = captureConfiguration;
             _chatTextMediator = chatTextMediator;
             _capturerFactory = capturerFactory;
             _translationConfiguration = translationConfiguration;
@@ -156,7 +158,7 @@ namespace TraduSaga.Processing
                     cachedImg?.Dispose();
                     cachedImg = grayScaleScreen;
 
-                    return _textProvider.GetText(primaryOcr, unitedScreen);
+                    return _textProvider.GetText(primaryOcr, unitedScreen, _captureConfiguration.CaptureArea, _captureConfiguration.SpeakerArea);
                 }
 
                 cachedImg = grayScaleScreen;
@@ -244,7 +246,7 @@ namespace TraduSaga.Processing
 
                         if (readyCandidate != null && activeTranslationTasks.Count < MAX_TRANSLATE_TASK_POOL)
                         {
-                            activeTranslationTasks.Add(TranslateTextAsync(readyCandidate.Text, readyCandidateIterationId));
+                            activeTranslationTasks.Add(TranslateTextAsync(readyCandidate.Text, readyCandidateIterationId, readyCandidate.SpeakerText));
                             readyCandidate = null;
                             readyCandidateIterationId = Guid.Empty;
                         }
@@ -255,7 +257,7 @@ namespace TraduSaga.Processing
                         }
 
                         byte[] screenshot = _capturer.CaptureScreen();
-                        var primaryDetected = _textProvider.GetText(primaryOcr, screenshot);
+                        var primaryDetected = _textProvider.GetText(primaryOcr, screenshot, _captureConfiguration.CaptureArea, _captureConfiguration.SpeakerArea);
                         lastIterationType = IterationType.Short;
                         if (primaryDetected.ValidityScore == 0)
                         {
@@ -282,7 +284,7 @@ namespace TraduSaga.Processing
                         {
                             if (candidateUpdate.Result != null)
                             {
-                                activeTranslationTasks.Add(TranslateTextAsync(candidateUpdate.Result.Text, pendingIterationId));
+                                activeTranslationTasks.Add(TranslateTextAsync(candidateUpdate.Result.Text, pendingIterationId, candidateUpdate.Result.SpeakerText));
                             }
 
                             if (progressiveCandidate.HasPending)
@@ -333,7 +335,7 @@ namespace TraduSaga.Processing
 
                         for (var i = 0; i < otherOcr.Length; i++)
                         {
-                            detectedResults[i] = _textProvider.GetTextAsync(otherOcr[i], screenshot);
+                            detectedResults[i] = _textProvider.GetTextAsync(otherOcr[i], screenshot, _captureConfiguration.CaptureArea, _captureConfiguration.SpeakerArea);
                         }
 
                         detectedResults[^1] = Task.FromResult(primaryDetected);
@@ -430,7 +432,9 @@ namespace TraduSaga.Processing
                 lock (_obj)
                 {
                     byte[] screenshot = _onceTimeCapturer.CaptureScreen(captureArea);
-                    var taskResults = _engines.Select(engine => _textProvider.GetTextAsync(engine, screenshot)).ToArray();
+                    var effectiveSpeakerArea = IsSpeakerAreaInside(_captureConfiguration.SpeakerArea, captureArea)
+                        ? _captureConfiguration.SpeakerArea : RectangleF.Empty;
+                    var taskResults = _engines.Select(engine => _textProvider.GetTextAsync(engine, screenshot, captureArea, effectiveSpeakerArea)).ToArray();
                     if (taskResults.Length == 0)
                     {
                         return;
@@ -439,7 +443,7 @@ namespace TraduSaga.Processing
                     // TODO: sometimes one of task (win tts) is not complete long time and translation is not working
                     Task.WaitAll(taskResults);
                     TextDetectionResult bestDetected = GetBestDetectionResult(taskResults, 3);
-                    translationTask = TranslateTextAsync(bestDetected.Text, Guid.NewGuid());
+                    translationTask = TranslateTextAsync(bestDetected.Text, Guid.NewGuid(), bestDetected.SpeakerText);
                 }
 
                 translationTask.Wait(TRANSLATION_TIMEOUT_MS);
@@ -461,7 +465,7 @@ namespace TraduSaga.Processing
             }
         }
 
-        private async Task TranslateTextAsync(string text, Guid iterationId)
+        private async Task TranslateTextAsync(string text, Guid iterationId, string speakerText = null)
         {
             var translatorContext = _translatorContext;
             if (_translationConfiguration.TranslateFromLang != _translationConfiguration.TranslateToLang
@@ -475,15 +479,20 @@ namespace TraduSaga.Processing
                 return;
             }
 
-            var translation = await translatorContext.Translator.TranslateTextAsync(text).ConfigureAwait(false);
+            var (translation, displayedTranslation) = await TranslationOutputPipeline.TranslateAsync(
+                text, speakerText, dialogue => translatorContext.Translator.TranslateTextAsync(dialogue)).ConfigureAwait(false);
             if (!string.IsNullOrWhiteSpace(translation) && !_textResultCacheService.IsTranslatedCached(translation, iterationId))
             {
                 Interlocked.Exchange(ref _lastTranslatedTextTicks, DateTime.UtcNow.Ticks);
-                _chatTextMediator.SendText(translation, true);
-                lock (_ttsLock)
-                {
-                    _ttsEngine.SpeechText(translation);
-                }
+                TranslationOutputPipeline.Publish(translation, displayedTranslation,
+                    displayed => _chatTextMediator.SendText(displayed, true),
+                    speech =>
+                    {
+                        lock (_ttsLock)
+                        {
+                            _ttsEngine.SpeechText(speech);
+                        }
+                    });
 
                 try
                 {
@@ -512,6 +521,11 @@ namespace TraduSaga.Processing
                 default:
                     return 0;
             }
+        }
+
+        private static bool IsSpeakerAreaInside(RectangleF speakerArea, RectangleF captureArea)
+        {
+            return !speakerArea.IsEmpty && !captureArea.IsEmpty && captureArea.Contains(speakerArea);
         }
 
         private TextDetectionResult GetBestDetectionResult(Task<TextDetectionResult>[] results, int minCountSameResults)

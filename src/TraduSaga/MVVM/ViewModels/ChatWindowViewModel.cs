@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TraduSaga.Dialog;
+using TraduSaga.Configuration;
 using TraduSaga.HotKeys;
 using TraduSaga.Infrastructure;
 using TraduSaga.Infrastructure.Constants;
@@ -54,6 +56,7 @@ namespace TraduSaga.MVVM.ViewModels
             this._hotKeysServiceManager = hotKeysManager;
 
             hotKeysManager.SelectAreaKeyPressed += HotKeysManagerOnSelectAreaKeyPressed;
+            hotKeysManager.SelectSpeakerAreaKeyPressed += HotKeysManagerOnSelectSpeakerAreaKeyPressed;
             hotKeysManager.TranslationStateKeyPressed += HotKeysManagerOnTranslationStateKeyPressed;
             hotKeysManager.ChatVisibilityKeyPressed += HotKeysManagerOnChatVisibilityKeyPressed;
             hotKeysManager.SettingVisibilityKeyPressed += HotKeysManagerOnSettingVisibilityKeyPressed;
@@ -126,8 +129,42 @@ namespace TraduSaga.MVVM.ViewModels
             var result = _dialogService.ShowWindowDialog<SelectionAreaWindow>(out var window);
             if (result.HasValue && result.Value)
             {
+                var previousSpeakerArea = Model.CaptureConfiguration.SpeakerArea;
                 Model.CaptureConfiguration.CaptureArea = window.SelectedArea;
+                if (!previousSpeakerArea.IsEmpty
+                    && !WindowGeometryPolicy.IsSpeakerAreaWithinCaptureArea(previousSpeakerArea, window.SelectedArea))
+                {
+                    Model.CaptureConfiguration.SpeakerArea = RectangleF.Empty;
+                    Model.AddChatItem(LocalizationManager.GetValue("Str.Hotkeys.SpeakerAreaNeedsSelection"), TextTypes.Info);
+                }
             }
+        }
+
+        private void HotKeysManagerOnSelectSpeakerAreaKeyPressed(object sender, EventArgs e)
+        {
+            Model.EndTranslation();
+            var captureArea = Model.CaptureConfiguration.CaptureArea;
+            if (captureArea.IsEmpty)
+            {
+                Model.AddChatItem(LocalizationManager.GetValue("Str.Hotkeys.SelectMainAreaFirst"), TextTypes.Info);
+                return;
+            }
+
+            var result = _dialogService.ShowWindowDialog<SelectionAreaWindow>(out var window);
+            if (!result.HasValue || !result.Value)
+            {
+                return;
+            }
+
+            var speakerArea = window.SelectedArea;
+            if (!WindowGeometryPolicy.IsSpeakerAreaWithinCaptureArea(speakerArea, captureArea))
+            {
+                Model.AddChatItem(LocalizationManager.GetValue("Str.Hotkeys.SpeakerAreaMustFit"), TextTypes.Info);
+                return;
+            }
+
+            Model.CaptureConfiguration.SpeakerArea = speakerArea;
+            Model.AddChatItem(LocalizationManager.GetValue("Str.Hotkeys.SpeakerAreaConfigured"), TextTypes.Info);
         }
 
         private void HotKeysManagerOnShowSelectionAreaKeyPressed(object sender, EventArgs e)

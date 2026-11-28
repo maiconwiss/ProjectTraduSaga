@@ -30,7 +30,7 @@ namespace TraduSaga.OCR.WindowsOCR
             ImgFormat = ImageFormat.Tiff;
         }
 
-        public string[] GetTextLines(byte[] image)
+        public OcrTextLine[] GetTextLines(byte[] image)
         {
             if (MsEngine == null) 
                 return [];
@@ -49,7 +49,12 @@ namespace TraduSaga.OCR.WindowsOCR
             OcrResult result = MsEngine.RecognizeAsync(softwareBitmap).AsTask().Result;
 
             return result.Lines
-                .Select(line => LanguageDescriptor.UseSpaceRemover ? line.Text.Replace(" ", string.Empty) : line.Text)
+                .Select(line => new OcrTextLine(
+                    LanguageDescriptor.UseSpaceRemover ? line.Text.Replace(" ", string.Empty) : line.Text,
+                    line.Words.Select(word => new OcrTextWord(
+                        LanguageDescriptor.UseSpaceRemover ? word.Text.Replace(" ", string.Empty) : word.Text,
+                        new RectangleF((float)word.BoundingRect.X, (float)word.BoundingRect.Y,
+                            (float)word.BoundingRect.Width, (float)word.BoundingRect.Height))).ToArray()))
                 .ToArray();
         }
 
